@@ -70,7 +70,7 @@ public class Challenge {
         }
     }
 
-    private void cancelParticipate(Long participationId) {
+    public void cancelParticipate(Long participationId) {
         Participation willDeletedParticipation = this.participations.stream()
                 .filter(participation -> participation.getId().equals(participationId))
                 .findFirst().orElseThrow(() -> {
