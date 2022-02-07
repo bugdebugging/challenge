@@ -97,6 +97,12 @@ public class Challenge {
         this.challengeQuestions.remove(willDeletedQuestion);
     }
 
+    public void changeChallengeInfo(String name, ChallengeDateTime challengeDateTime) {
+        if (!this.challengeDateTime.isBeforeChallenge(LocalDateTime.now())) {
+            throw new IllegalStateException("대회 시작전에만 정보를 수정할 수 있습니다.");
+        }
+    }
+
     public void submitSolutionOfQuestion(Long participationId, Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
         verifyCanSubmit(problemId);
         Participation participator = this.participations.stream()
