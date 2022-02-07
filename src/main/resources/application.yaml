@@ -1,0 +1,10 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      force: true
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  jpa:
+    show-sql: true
