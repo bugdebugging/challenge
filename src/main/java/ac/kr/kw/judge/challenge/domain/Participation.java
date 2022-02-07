@@ -44,7 +44,17 @@ public class Participation {
         this.submits.add(Submit.of(problemId, this, programmingLanguage, sourceCode));
     }
 
-    public void calculateTotalChallengeScore() {
+    public void completeGradingOfSubmit(Long submitId, SubmitStatus status, ChallengeScore challengeScore) {
+        Submit willGradedSubmit = this.submits.stream()
+                .filter(submit -> submit.getId().equals(submitId))
+                .findFirst().orElseThrow(() -> {
+                    throw new IllegalArgumentException("해당 id의 submit이 존재하지 않습니다.");
+                });
+        willGradedSubmit.completeGrading(status,challengeScore);
+        this.calculateTotalChallengeScore();
+    }
+
+    private void calculateTotalChallengeScore() {
         Map<Long, ChallengeScore> maximumScoreOfQuestions = new HashMap<>();
         this.submits.stream()
                 .forEach(submit -> maximumScoreOfQuestions.put(submit.getProblemId(), ChallengeScore.ZERO));
