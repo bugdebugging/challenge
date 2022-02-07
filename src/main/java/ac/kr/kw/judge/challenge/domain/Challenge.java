@@ -44,10 +44,25 @@ public class Challenge {
     }
 
     public Challenge(String name, List<Author> authors, List<Question> challengeQuestions, ChallengeDateTime challengeDateTime) {
+        this.verifyAuthorNumberLargerOrEqualThanOne();
+        this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
+
         this.name = name;
         this.authors = authors;
         this.challengeQuestions = challengeQuestions;
         this.challengeDateTime = challengeDateTime;
+    }
+
+    private void verifyAuthorNumberLargerOrEqualThanOne() {
+        if (authors.isEmpty()) {
+            throw new IllegalArgumentException("적어도 한명의 출제진은 존재해야합니다.");
+        }
+    }
+
+    private void verifyChallengeQuestionNumberLargerOrEqualThanOne() {
+        if (challengeQuestions.isEmpty()) {
+            throw new IllegalArgumentException("적어도 하나 이상의 문제는 존재해야합니다.");
+        }
     }
 
     public void participateInChallenge(Long userId, String name) {
@@ -95,6 +110,7 @@ public class Challenge {
                     throw new IllegalArgumentException("해당 id의 출제된 문제가 존재하지 않습니다.");
                 });
         this.challengeQuestions.remove(willDeletedQuestion);
+        this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
     }
 
     public void changeChallengeInfo(String name, ChallengeDateTime challengeDateTime) {
