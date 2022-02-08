@@ -118,6 +118,8 @@ public class Challenge {
         if (!this.challengeDateTime.isBeforeChallenge(LocalDateTime.now())) {
             throw new IllegalStateException("대회 시작전에만 정보를 수정할 수 있습니다.");
         }
+        this.name = name;
+        this.challengeDateTime = challengeDateTime;
     }
 
     public void submitSolutionOfQuestion(Long participationId, Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
