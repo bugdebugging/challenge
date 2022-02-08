@@ -44,13 +44,13 @@ public class Challenge {
     }
 
     public Challenge(String name, List<Author> authors, List<Question> challengeQuestions, ChallengeDateTime challengeDateTime) {
-        this.verifyAuthorNumberLargerOrEqualThanOne();
-        this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
-
         this.name = name;
         this.authors = authors;
         this.challengeQuestions = challengeQuestions;
         this.challengeDateTime = challengeDateTime;
+
+        this.verifyAuthorNumberLargerOrEqualThanOne();
+        this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
     }
 
     private void verifyAuthorNumberLargerOrEqualThanOne() {

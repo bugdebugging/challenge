@@ -27,7 +27,7 @@ public class ChallengeDateTime {
     }
 
     private static void checkDateTimeIsValid(LocalDateTime startTime, LocalDateTime endTime) {
-        if (startTime.isAfter(LocalDateTime.now())) {
+        if (startTime.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("현재 시간보다 대회 시작시간이 과거일 수는 없습니다.");
         }
         if (startTime.isAfter(endTime)) {
