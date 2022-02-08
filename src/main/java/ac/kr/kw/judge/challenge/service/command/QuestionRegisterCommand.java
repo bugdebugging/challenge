@@ -1,5 +1,7 @@
 package ac.kr.kw.judge.challenge.service.command;
 
+import ac.kr.kw.judge.challenge.domain.Question;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -21,5 +23,9 @@ public class QuestionRegisterCommand {
 
     public String getTitle() {
         return title;
+    }
+
+    public Question toEntity() {
+        return Question.of(problemId, title);
     }
 }

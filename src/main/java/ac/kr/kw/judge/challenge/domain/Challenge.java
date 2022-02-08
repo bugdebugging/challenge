@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "challenges")
@@ -51,6 +52,7 @@ public class Challenge {
 
         this.verifyAuthorNumberLargerOrEqualThanOne();
         this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
+        this.checkExistDuplicateAuthor();
     }
 
     private void verifyAuthorNumberLargerOrEqualThanOne() {
@@ -94,23 +96,22 @@ public class Challenge {
         this.participations.remove(willDeletedParticipation);
     }
 
-    public void addQuestion(Long problemId, String title) {
-        this.challengeQuestions.stream()
-                .filter(questionInStream -> questionInStream.getProblemId().equals(problemId))
-                .findFirst().ifPresent(existingQuestion -> {
-            throw new IllegalStateException("이미 출제한 문제를 다시 출제할 수 없습니다.");
-        });
-        this.challengeQuestions.add(Question.of(problemId, title));
+    public void changeQuestions(List<Question> questions) {
+        this.challengeQuestions = questions;
+        this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
     }
 
-    public void deleteQuestion(Long questionId) {
-        Question willDeletedQuestion = this.challengeQuestions.stream()
-                .filter(question -> question.getId().equals(questionId))
-                .findFirst().orElseThrow(() -> {
-                    throw new IllegalArgumentException("해당 id의 출제된 문제가 존재하지 않습니다.");
-                });
-        this.challengeQuestions.remove(willDeletedQuestion);
-        this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
+    public void changeAuthors(List<Author> authors) {
+        this.authors = authors;
+        checkExistDuplicateAuthor();
+        this.verifyAuthorNumberLargerOrEqualThanOne();
+    }
+
+    private void checkExistDuplicateAuthor() {
+        if (this.authors.stream().distinct()
+                .collect(Collectors.toList()).size() != this.authors.size()) {
+            throw new IllegalArgumentException("중복된 저자가 존재할 수 없습니다.");
+        }
     }
 
     public void changeChallengeInfo(String name, ChallengeDateTime challengeDateTime) {
