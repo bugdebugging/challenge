@@ -64,7 +64,7 @@ public class ParticipationRegisterServiceTest {
 
         final Long userId = 1L;
         final String name = "tourist";
-        challenge.participateInChallenge(userId, name);
+        challenge.participateInChallenge(userId, name,LocalDateTime.now());
 
         participationRegisterService.cancelParticipation(challengeId, userId);
         assertEquals(0, challenge.getParticipations().stream()

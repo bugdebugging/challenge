@@ -67,8 +67,8 @@ public class Challenge {
         }
     }
 
-    public void participateInChallenge(Long userId, String name) {
-        this.verifyCanParticipateIn(userId, LocalDateTime.now());
+    public void participateInChallenge(Long userId, String name, LocalDateTime timestamp) {
+        this.verifyCanParticipateIn(userId, timestamp);
         this.addParticipation(userId, name);
     }
 

@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -17,7 +19,8 @@ public class ParticipationRegisterServiceImpl implements ParticipationRegisterSe
     @Override
     public void participateInChallenge(Long challengeId, ParticipationRegisterCommand participationRegisterCommand) {
         Challenge challenge = ChallengeFindHelper.findChallengeById(challengeId, challengeRepository);
-        challenge.participateInChallenge(participationRegisterCommand.getUserId(), participationRegisterCommand.getName());
+        challenge.participateInChallenge(participationRegisterCommand.getUserId()
+                , participationRegisterCommand.getName(), LocalDateTime.now());
     }
 
     @Override
