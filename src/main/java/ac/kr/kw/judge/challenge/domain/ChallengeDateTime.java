@@ -22,17 +22,7 @@ public class ChallengeDateTime {
     }
 
     public static ChallengeDateTime of(LocalDateTime startTime, LocalDateTime endTime) {
-        checkDateTimeIsValid(startTime, endTime);
         return new ChallengeDateTime(startTime, endTime);
-    }
-
-    private static void checkDateTimeIsValid(LocalDateTime startTime, LocalDateTime endTime) {
-        if (startTime.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("현재 시간보다 대회 시작시간이 과거일 수는 없습니다.");
-        }
-        if (startTime.isAfter(endTime)) {
-            throw new IllegalArgumentException("시작시간이 종료시간보다 과거일 수는 없습니다.");
-        }
     }
 
     public boolean isBeforeChallenge(LocalDateTime timestamp) {
