@@ -58,6 +58,21 @@ public class ParticipationRegisterServiceTest {
     }
 
     @Test
+    @DisplayName("대회에 중복 참여")
+    void 대회_중복참여_실패() {
+        Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
+        when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
+
+        final Long userId = 1L;
+        final String name = "tourist";
+        participationRegisterService.participateInChallenge(challengeId, new ParticipationRegisterCommand(userId, name));
+
+        assertThrows(IllegalStateException.class, () -> {
+            participationRegisterService.participateInChallenge(challengeId, new ParticipationRegisterCommand(userId, name));
+        }, "대회에 중복참여할 수는 없다.");
+    }
+
+    @Test
     @DisplayName("대회에 참여 취소")
     void 대회참여_취소_성공() {
         Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
