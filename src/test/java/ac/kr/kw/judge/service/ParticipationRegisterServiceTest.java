@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -64,11 +65,24 @@ public class ParticipationRegisterServiceTest {
 
         final Long userId = 1L;
         final String name = "tourist";
-        challenge.participateInChallenge(userId, name,LocalDateTime.now());
+        challenge.participateInChallenge(userId, name, LocalDateTime.now());
 
         participationRegisterService.cancelParticipation(challengeId, userId);
         assertEquals(0, challenge.getParticipations().stream()
                 .filter(participation -> participation.getUserId().equals(userId))
                 .collect(Collectors.toList()).size(), "참여취소시 participation삭제");
+    }
+
+    @Test
+    @DisplayName("대회 시작후 참여 실패")
+    void 대회시작후_참여_실패() {
+        ChallengeDateTime onProgressDateTime = ChallengeDateTime.of(LocalDateTime.now().minusHours(1)
+                , LocalDateTime.now().plusHours(1));
+        Challenge challenge = new Challenge(name, authors, questions, onProgressDateTime);
+        when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
+
+        assertThrows(IllegalStateException.class, () -> {
+            participationRegisterService.participateInChallenge(1L, new ParticipationRegisterCommand(7L, "rein"));
+        }, "대회 참여 전에만 참여가 가능하다.");
     }
 }
