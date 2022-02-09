@@ -3,7 +3,7 @@ package ac.kr.kw.judge.challenge.service;
 import ac.kr.kw.judge.challenge.service.command.ParticipationRegisterCommand;
 
 public interface ParticipationRegisterService {
-    Long participateInChallenge(ParticipationRegisterCommand participationRegisterCommand);
+    void participateInChallenge(Long challengeId, ParticipationRegisterCommand participationRegisterCommand);
 
-    void cancelParticipation(Long participationId);
+    void cancelParticipation(Long challengeId, Long userId);
 }

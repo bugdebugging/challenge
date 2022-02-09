@@ -87,9 +87,12 @@ public class Challenge {
         }
     }
 
-    public void cancelParticipate(Long participationId) {
+    public void cancelParticipate(Long userId) {
+        if (!this.challengeDateTime.isBeforeChallenge(LocalDateTime.now())) {
+            throw new IllegalArgumentException("대회참여 취소는 시작전에만 가능합니다.");
+        }
         Participation willDeletedParticipation = this.participations.stream()
-                .filter(participation -> participation.getId().equals(participationId))
+                .filter(participation -> participation.getUserId().equals(userId))
                 .findFirst().orElseThrow(() -> {
                     throw new IllegalArgumentException("참여하지 않은 대회의 참여취소를 할 수 없습니다.");
                 });
