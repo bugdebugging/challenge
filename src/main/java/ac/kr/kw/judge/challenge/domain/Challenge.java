@@ -136,7 +136,9 @@ public class Challenge {
     }
 
     private void verifyCanSubmit(Long problemId) {
-        this.challengeDateTime.isOnProgressChallenge(LocalDateTime.now());
+        if (!this.challengeDateTime.isOnProgressChallenge(LocalDateTime.now())) {
+            throw new IllegalStateException("대회가 진행중인 경우만 제출할 수 있습니다.");
+        }
         this.verifyProblemExistInChallenge(problemId);
     }
 
