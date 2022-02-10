@@ -36,8 +36,20 @@ public class Participation {
         this.challengeScore = ChallengeScore.ZERO;
     }
 
+    private Participation(Long userId, String name, Challenge challenge, List<Submit> submits) {
+        this.userId = userId;
+        this.name = name;
+        this.challenge = challenge;
+        this.submits = submits;
+        this.challengeScore = ChallengeScore.ZERO;
+    }
+
     public static Participation of(Long userId, String name, Challenge challenge) {
         return new Participation(userId, name, challenge);
+    }
+
+    public static Participation withSubmits(Long userId, String name, Challenge challenge, List<Submit> submits) {
+        return new Participation(userId, name, challenge, submits);
     }
 
     public void submitSolutionOfQuestion(Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
@@ -50,7 +62,7 @@ public class Participation {
                 .findFirst().orElseThrow(() -> {
                     throw new IllegalArgumentException("해당 id의 submit이 존재하지 않습니다.");
                 });
-        willGradedSubmit.completeGrading(status,challengeScore);
+        willGradedSubmit.completeGrading(status, challengeScore);
         this.calculateTotalChallengeScore();
     }
 
