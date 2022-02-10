@@ -4,6 +4,7 @@ import ac.kr.kw.judge.challenge.domain.*;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
 import ac.kr.kw.judge.challenge.repository.ParticipationRepository;
 import ac.kr.kw.judge.challenge.service.SubmitSolutionService;
+import ac.kr.kw.judge.challenge.service.command.CompleteGradingSubmitCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import ac.kr.kw.judge.challenge.service.command.SolutionSubmitCommand;
 import org.junit.jupiter.api.DisplayName;
@@ -63,7 +64,6 @@ public class SubmitSolutionServiceTest {
         assertEquals(code, resultSubmit.getSourceCode());
     }
 
-
     @Test
     @DisplayName("대회 종료 후 솔루션 제출")
     void 대회_종료후_제출_실패() {
@@ -104,5 +104,36 @@ public class SubmitSolutionServiceTest {
         assertThrows(IllegalArgumentException.class, () -> {
             submitSolutionService.submitSolution(challengeId, command);
         }, "대회 도중에만 제출가능합니다.");
+    }
+
+    @Test
+    @DisplayName("참여자 점수계산")
+    void 참여자_대회점수계산() {
+        List<Submit> submits = List.of(Submit.withId(1L, 1L, null, ProgrammingLanguage.CPP, "failedSubmits1")
+                , Submit.withId(2L, 1L, null, ProgrammingLanguage.JAVA, "successSubmits1")
+                , Submit.withId(3L, 2L, null, ProgrammingLanguage.C, "successSubmits2")
+                , Submit.withId(4L, 2L, null, ProgrammingLanguage.C, "failedSubmits2")
+                , Submit.withId(5L, 3L, null, ProgrammingLanguage.C, "successSubmits3")
+                , Submit.withId(6L, 3L, null, ProgrammingLanguage.C, "PENDING Submit"));
+
+        Participation participation = Participation.withSubmits(1L, "tourist", null, submits);
+        when(participationRepository.findById(1L)).thenReturn(Optional.of(participation));
+
+        List<CompleteGradingSubmitCommand> successSubmits = List.of(
+                new CompleteGradingSubmitCommand(2L, SubmitStatus.SUCCESS, ChallengeScore.of(700))
+                , new CompleteGradingSubmitCommand(3L, SubmitStatus.SUCCESS, ChallengeScore.of(1000))
+                , new CompleteGradingSubmitCommand(5L, SubmitStatus.SUCCESS, ChallengeScore.of(900)));
+
+        List<CompleteGradingSubmitCommand> failedSubmits = List.of(
+                new CompleteGradingSubmitCommand(1L, SubmitStatus.FAILED, ChallengeScore.of(0))
+                , new CompleteGradingSubmitCommand(4L, SubmitStatus.FAILED, ChallengeScore.of(0)));
+
+        successSubmits.stream()
+                .forEach(successSubmit -> submitSolutionService.completeGradingOfSubmit(1L, successSubmit));
+        failedSubmits.stream()
+                .forEach(failedSubmit -> submitSolutionService.completeGradingOfSubmit(1L, failedSubmit));
+
+        ChallengeScore expectScore = ChallengeScore.of(2600);
+        assertEquals(expectScore, participation.getChallengeScore(), "참여자의 점수는 각 문제별 최대 득점의 합.");
     }
 }
