@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS challenge_authors;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS submits;
 DROP TABLE IF EXISTS participations;
-DROP TABLE IF EXISTS challenge;
+DROP TABLE IF EXISTS challenges;
 
 create table challenges
 (
