@@ -47,8 +47,22 @@ public class Submit {
         submitStatus = SubmitStatus.PENDING;
     }
 
-    public static Submit of(Long problemId, Participation participation, ProgrammingLanguage programmingLanguage, String sourceCode) {
+    private Submit(Long id, Long problemId, Participation participation, ProgrammingLanguage programmingLanguage, String sourceCode) {
+        this.id = id;
+        this.problemId = problemId;
+        this.participation = participation;
+        this.programmingLanguage = programmingLanguage;
+        this.score = ChallengeScore.ZERO;
+        this.sourceCode = sourceCode;
+        submitStatus = SubmitStatus.PENDING;
+    }
+
+    public static Submit withoutId(Long problemId, Participation participation, ProgrammingLanguage programmingLanguage, String sourceCode) {
         return new Submit(problemId, participation, programmingLanguage, sourceCode);
+    }
+
+    public static Submit withId(Long id, Long problemId, Participation participation, ProgrammingLanguage programmingLanguage, String sourceCode) {
+        return new Submit(id, problemId, participation, programmingLanguage, sourceCode);
     }
 
     public void completeGrading(SubmitStatus status, ChallengeScore score) {
