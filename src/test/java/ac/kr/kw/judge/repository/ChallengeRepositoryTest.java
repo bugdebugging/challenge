@@ -1,0 +1,63 @@
+package ac.kr.kw.judge.repository;
+
+import ac.kr.kw.judge.challenge.domain.Challenge;
+import ac.kr.kw.judge.challenge.dto.ChallengeListItemDto;
+import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@SpringBootTest
+public class ChallengeRepositoryTest {
+    @Autowired
+    ChallengeRepository challengeRepository;
+
+    @Test
+    @DisplayName("대회_id_정렬조회")
+    void 대회_id_정렬조회() {
+        List<ChallengeListItemDto> result = challengeRepository.findChallengeWithCountOfQuestionAndParticipation(PageRequest.of(0, 2, Sort.by("id").descending()));
+        assertEquals(2, result.size());
+
+        assertEquals("Global Round", result.get(0).getName());
+        assertEquals("Educational Round", result.get(1).getName());
+
+        assertEquals(5L, result.get(0).getId());
+        assertEquals(4L, result.get(1).getId());
+
+        assertEquals(1, result.get(0).getNumOfQuestion());
+        assertEquals(1, result.get(1).getNumOfQuestion());
+
+        assertEquals(2, result.get(0).getNumOfParticipation());
+        assertEquals(1, result.get(1).getNumOfParticipation());
+    }
+
+    @Test
+    @DisplayName("대회_시작시간_정렬조회")
+    void 대회_시작시간_정렬조회() {
+        List<ChallengeListItemDto> result = challengeRepository.findChallengeWithCountOfQuestionAndParticipation(PageRequest.of(0, 3, Sort.by("challengeDateTime.startTime").ascending()));
+        assertEquals(3, result.size());
+
+        assertEquals("round513 Div1", result.get(0).getName());
+        assertEquals("round512 Div3", result.get(1).getName());
+        assertEquals("round511 Div2", result.get(2).getName());
+
+        assertEquals(3L, result.get(0).getId());
+        assertEquals(2L, result.get(1).getId());
+        assertEquals(1L, result.get(2).getId());
+
+        assertEquals(0, result.get(0).getNumOfQuestion());
+        assertEquals(2, result.get(1).getNumOfQuestion());
+        assertEquals(4, result.get(2).getNumOfQuestion());
+
+        assertEquals(3, result.get(0).getNumOfParticipation());
+        assertEquals(0, result.get(1).getNumOfParticipation());
+        assertEquals(3, result.get(2).getNumOfParticipation());
+    }
+}
