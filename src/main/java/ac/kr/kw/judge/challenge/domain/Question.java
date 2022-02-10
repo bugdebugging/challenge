@@ -16,9 +16,6 @@ public class Question {
     @Column
     private String title;
 
-    @Column
-    private int numOfSubmit;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Challenge challenge;
 
@@ -28,7 +25,6 @@ public class Question {
     private Question(Long problemId, String title) {
         this.problemId = problemId;
         this.title = title;
-        numOfSubmit = 0;
     }
 
     public static Question of(Long problemId, String title) {
@@ -47,9 +43,6 @@ public class Question {
         return title;
     }
 
-    public int getNumOfSubmit() {
-        return numOfSubmit;
-    }
 
     public Challenge getChallenge() {
         return challenge;
