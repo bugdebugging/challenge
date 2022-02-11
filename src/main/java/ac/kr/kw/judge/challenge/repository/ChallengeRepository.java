@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     @Query("SELECT distinct C, C.participations.size, C.challengeQuestions.size " +
@@ -14,5 +15,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     List<Object[]> findChallengeWithCountOfQuestionAndParticipation(Pageable page);
 
     @Query("SELECT C FROM Challenge C LEFT JOIN FETCH C.challengeQuestions WHERE C.id = :challengeId")
-    List<Challenge> findChallengeQuestionsByChallengeId(@Param("challengeId") Long challengeId);
+    Optional<Challenge> findChallengeQuestionsByChallengeId(@Param("challengeId") Long challengeId);
 }
