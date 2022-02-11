@@ -40,12 +40,12 @@ values (7L, 'graph', 5L);
 
 --participations
 -- 1
-insert into participations(name, user_id, challenge_id)
-values ('tourist', 1L, 1L);
-insert into participations(name, user_id, challenge_id)
-values ('ReReRERE', 2L, 1L);
-insert into participations(name, user_id, challenge_id)
-values ('koosaga', 3L, 1L);
+insert into participations(name, user_id, challenge_id, score)
+values ('tourist', 1L, 1L, 1599);
+insert into participations(name, user_id, challenge_id, score)
+values ('ReReRERE', 2L, 1L, 2700);
+insert into participations(name, user_id, challenge_id, score)
+values ('koosaga', 3L, 1L, 1300);
 -- 3
 insert into participations(name, user_id, challenge_id)
 values ('tourist', 1L, 3L);
@@ -65,21 +65,21 @@ values ('isvara', 10L, 5L);
 --author
 -- 1
 insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (1L,2000,'tester1',100L);
+values (1L, 2000, 'tester1', 100L);
 insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (1L,2500,'tester2',101L);
+values (1L, 2500, 'tester2', 101L);
 
 -- 2
 insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (2L,2500,'tester2',101L);
+values (2L, 2500, 'tester2', 101L);
 
 -- 4
 insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (4L,2150,'vovuh',400L);
+values (4L, 2150, 'vovuh', 400L);
 insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (4L,1846,'kisa',401L);
+values (4L, 1846, 'kisa', 401L);
 insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (4L,2200,'koru',402L);
+values (4L, 2200, 'koru', 402L);
 
 insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (5L,2200,'koru',402L);
+values (5L, 2200, 'koru', 402L);
