@@ -98,6 +98,6 @@ public class ParticipationRegisterServiceTest {
 
         assertThrows(IllegalStateException.class, () -> {
             participationRegisterService.participateInChallenge(1L, new ParticipationRegisterCommand(7L, "rein"));
-        }, "대회 참여 전에만 참여가 가능하다.");
+        }, "대회 시작 전에만 참여가 가능하다.");
     }
 }
