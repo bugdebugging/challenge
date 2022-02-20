@@ -1,9 +1,9 @@
-package ac.kr.kw.judge.challenge.service.impl;
+package ac.kr.kw.judge.challenge.service;
 
 import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.domain.Question;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
-import ac.kr.kw.judge.challenge.service.ChallengeRegisterService;
+import ac.kr.kw.judge.challenge.service.port.in.ChallengeRegisterService;
 import ac.kr.kw.judge.challenge.service.command.ChallengeRegisterCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

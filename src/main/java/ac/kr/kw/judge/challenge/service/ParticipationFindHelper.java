@@ -1,4 +1,4 @@
-package ac.kr.kw.judge.challenge.service.impl;
+package ac.kr.kw.judge.challenge.service;
 
 import ac.kr.kw.judge.challenge.domain.Participation;
 import ac.kr.kw.judge.challenge.repository.ParticipationRepository;

@@ -5,7 +5,7 @@ import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.domain.ChallengeDateTime;
 import ac.kr.kw.judge.challenge.domain.Question;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
-import ac.kr.kw.judge.challenge.service.ChallengeRegisterService;
+import ac.kr.kw.judge.challenge.service.port.in.ChallengeRegisterService;
 import ac.kr.kw.judge.challenge.service.command.ChallengeRegisterCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import org.junit.jupiter.api.DisplayName;

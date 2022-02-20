@@ -1,10 +1,10 @@
-package ac.kr.kw.judge.challenge.service.impl;
+package ac.kr.kw.judge.challenge.service;
 
 import ac.kr.kw.judge.challenge.domain.Author;
 import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.domain.Question;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
-import ac.kr.kw.judge.challenge.service.ChallengeModifyService;
+import ac.kr.kw.judge.challenge.service.port.in.ChallengeModifyService;
 import ac.kr.kw.judge.challenge.service.command.ChallengeInfoModifyCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import lombok.RequiredArgsConstructor;

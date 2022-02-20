@@ -2,7 +2,7 @@ package ac.kr.kw.judge.service;
 
 import ac.kr.kw.judge.challenge.domain.*;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
-import ac.kr.kw.judge.challenge.service.ParticipationRegisterService;
+import ac.kr.kw.judge.challenge.service.port.in.ParticipationRegisterService;
 import ac.kr.kw.judge.challenge.service.command.ParticipationRegisterCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import org.junit.jupiter.api.DisplayName;

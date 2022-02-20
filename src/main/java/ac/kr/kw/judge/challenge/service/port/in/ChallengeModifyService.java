@@ -1,4 +1,4 @@
-package ac.kr.kw.judge.challenge.service;
+package ac.kr.kw.judge.challenge.service.port.in;
 
 import ac.kr.kw.judge.challenge.domain.Author;
 import ac.kr.kw.judge.challenge.service.command.ChallengeInfoModifyCommand;

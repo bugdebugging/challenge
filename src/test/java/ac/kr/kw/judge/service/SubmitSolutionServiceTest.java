@@ -3,7 +3,7 @@ package ac.kr.kw.judge.service;
 import ac.kr.kw.judge.challenge.domain.*;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
 import ac.kr.kw.judge.challenge.repository.ParticipationRepository;
-import ac.kr.kw.judge.challenge.service.SubmitSolutionService;
+import ac.kr.kw.judge.challenge.service.port.in.SubmitSolutionService;
 import ac.kr.kw.judge.challenge.service.command.CompleteGradingSubmitCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import ac.kr.kw.judge.challenge.service.command.SolutionSubmitCommand;
