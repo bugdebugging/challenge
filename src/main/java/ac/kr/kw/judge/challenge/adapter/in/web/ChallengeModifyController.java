@@ -1,5 +1,6 @@
 package ac.kr.kw.judge.challenge.adapter.in.web;
 
+import ac.kr.kw.judge.challenge.dto.in.AuthorsModifyWrapper;
 import ac.kr.kw.judge.challenge.dto.in.QuestionModifyWrapper;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import ac.kr.kw.judge.challenge.service.port.in.ChallengeModifyService;
@@ -25,7 +26,14 @@ public class ChallengeModifyController {
         List<QuestionRegisterCommand> questionRegisterCommands = questionModifyWrapper.getQuestions().stream()
                 .map(question -> new QuestionRegisterCommand(question.getProblemId(), question.getTitle()))
                 .collect(Collectors.toList());
-        challengeModifyService.changeQuestions(challengeId,questionRegisterCommands);
+        challengeModifyService.changeQuestions(challengeId, questionRegisterCommands);
         return ApiUtils.simpleMessage("You have successfully changed the questions.");
+    }
+
+    @PutMapping("/api/challenges/{challengeId}/authors")
+    public ApiResult modifyChallengeAuthors(@PathVariable("challengeId") Long challengeId,
+                                            @RequestBody AuthorsModifyWrapper authorsModifyWrapper) {
+        challengeModifyService.changeAuthors(challengeId, authorsModifyWrapper.getAuthors());
+        return ApiUtils.simpleMessage("You have successfully changed the authors.");
     }
 }
