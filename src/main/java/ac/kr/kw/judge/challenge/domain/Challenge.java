@@ -105,7 +105,8 @@ public class Challenge {
     }
 
     public void changeQuestions(List<Question> questions) {
-        this.challengeQuestions = questions;
+        this.challengeQuestions.clear();
+        this.challengeQuestions.addAll(questions);
         this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
         this.mappingChallengeWithQuestion();
     }
