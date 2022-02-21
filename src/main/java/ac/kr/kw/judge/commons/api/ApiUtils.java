@@ -12,4 +12,8 @@ public class ApiUtils {
     public static ApiResult fail(int status, Throwable throwable) {
         return new ApiResult(null, new ApiResult.ApiError(status, throwable.getMessage()));
     }
+
+    public static ApiResult simpleMessage(String message) {
+        return new ApiResult(new ApiResult.ApiMessage(message), null);
+    }
 }

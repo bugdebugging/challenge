@@ -34,4 +34,16 @@ public class ApiResult<T> {
             return message;
         }
     }
+
+    public static class ApiMessage{
+        private String message;
+
+        public ApiMessage(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
 }
