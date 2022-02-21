@@ -53,6 +53,11 @@ public class Challenge {
         this.verifyAuthorNumberLargerOrEqualThanOne();
         this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
         this.checkExistDuplicateAuthor();
+
+        this.mappingChallengeWithQuestion();
+    }
+    private void mappingChallengeWithQuestion(){
+        this.challengeQuestions.stream().forEach(challengeQuestion->challengeQuestion.setChallenge(this));
     }
 
     private void verifyAuthorNumberLargerOrEqualThanOne() {
@@ -102,6 +107,7 @@ public class Challenge {
     public void changeQuestions(List<Question> questions) {
         this.challengeQuestions = questions;
         this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
+        this.mappingChallengeWithQuestion();
     }
 
     public void changeAuthors(List<Author> authors) {

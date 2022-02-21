@@ -48,6 +48,11 @@ public class Question {
         return challenge;
     }
 
+    //for mapping
+    public void setChallenge(Challenge challenge){
+        this.challenge=challenge;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
