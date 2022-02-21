@@ -1,7 +1,9 @@
 package ac.kr.kw.judge.challenge.adapter.in.web;
 
 import ac.kr.kw.judge.challenge.dto.in.AuthorsModifyWrapper;
+import ac.kr.kw.judge.challenge.dto.in.ChallengeInfoModifyDto;
 import ac.kr.kw.judge.challenge.dto.in.QuestionModifyWrapper;
+import ac.kr.kw.judge.challenge.service.command.ChallengeInfoModifyCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import ac.kr.kw.judge.challenge.service.port.in.ChallengeModifyService;
 import ac.kr.kw.judge.commons.api.ApiResult;
@@ -35,5 +37,13 @@ public class ChallengeModifyController {
                                             @RequestBody AuthorsModifyWrapper authorsModifyWrapper) {
         challengeModifyService.changeAuthors(challengeId, authorsModifyWrapper.getAuthors());
         return ApiUtils.simpleMessage("You have successfully changed the authors.");
+    }
+
+    @PutMapping("/api/challenges/{challengeId}/info")
+    public ApiResult modifyChallengeInfo(@PathVariable("challengeId") Long challengeId,
+                                         @RequestBody ChallengeInfoModifyDto challengeInfoModifyDto) {
+        ChallengeInfoModifyCommand challengeInfoModifyCommand = new ChallengeInfoModifyCommand(challengeInfoModifyDto.getName(), challengeInfoModifyDto.getChallengeDateTime());
+        challengeModifyService.changeChallengeInfo(challengeId, challengeInfoModifyCommand);
+        return ApiUtils.simpleMessage("You have successfully changed the challenge info.");
     }
 }
