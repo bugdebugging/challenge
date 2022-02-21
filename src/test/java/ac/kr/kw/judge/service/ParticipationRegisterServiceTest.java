@@ -73,22 +73,6 @@ public class ParticipationRegisterServiceTest {
     }
 
     @Test
-    @DisplayName("대회에 참여 취소")
-    void 대회참여_취소_성공() {
-        Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
-        when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
-
-        final Long userId = 1L;
-        final String name = "tourist";
-        challenge.participateInChallenge(userId, name, LocalDateTime.now());
-
-        participationRegisterService.cancelParticipation(challengeId, userId);
-        assertEquals(0, challenge.getParticipations().stream()
-                .filter(participation -> participation.getUserId().equals(userId))
-                .collect(Collectors.toList()).size(), "참여취소시 participation삭제");
-    }
-
-    @Test
     @DisplayName("대회 시작후 참여 실패")
     void 대회시작후_참여_실패() {
         ChallengeDateTime onProgressDateTime = ChallengeDateTime.of(LocalDateTime.now().minusHours(1)

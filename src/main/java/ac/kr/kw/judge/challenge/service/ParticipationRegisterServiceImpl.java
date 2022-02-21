@@ -24,8 +24,8 @@ public class ParticipationRegisterServiceImpl implements ParticipationRegisterSe
     }
 
     @Override
-    public void cancelParticipation(Long challengeId, Long userId) {
+    public void cancelParticipation(Long challengeId, Long participationId) {
         Challenge challenge = ChallengeFindHelper.findChallengeById(challengeId, challengeRepository);
-        challenge.cancelParticipate(userId);
+        challenge.cancelParticipate(participationId);
     }
 }
