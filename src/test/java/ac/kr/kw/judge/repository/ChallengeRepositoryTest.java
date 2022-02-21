@@ -2,9 +2,7 @@ package ac.kr.kw.judge.repository;
 
 import ac.kr.kw.judge.challenge.domain.Author;
 import ac.kr.kw.judge.challenge.domain.Challenge;
-import ac.kr.kw.judge.challenge.domain.Question;
-import ac.kr.kw.judge.challenge.dto.ChallengeListItemDto;
-import ac.kr.kw.judge.challenge.dto.ChallengeQuestionDto;
+import ac.kr.kw.judge.challenge.dto.out.ChallengeListItemDto;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
