@@ -1,4 +1,4 @@
-package ac.kr.kw.judge.challenge.dto;
+package ac.kr.kw.judge.challenge.dto.out;
 
 import ac.kr.kw.judge.challenge.domain.Author;
 import ac.kr.kw.judge.challenge.domain.Challenge;

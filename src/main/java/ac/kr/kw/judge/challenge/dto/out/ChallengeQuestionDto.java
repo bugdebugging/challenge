@@ -1,4 +1,4 @@
-package ac.kr.kw.judge.challenge.dto;
+package ac.kr.kw.judge.challenge.dto.out;
 
 import java.util.List;
 
