@@ -2,8 +2,10 @@ package ac.kr.kw.judge.challenge.service;
 
 import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.dto.out.ChallengeListItemDto;
+import ac.kr.kw.judge.challenge.dto.out.ParticipationDto;
 import ac.kr.kw.judge.challenge.dto.out.QuestionDto;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
+import ac.kr.kw.judge.challenge.repository.ParticipationRepository;
 import ac.kr.kw.judge.challenge.repository.QuestionRepository;
 import ac.kr.kw.judge.challenge.service.port.in.ChallengeSearchService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class ChallengeSearchServiceImpl implements ChallengeSearchService {
     private final ChallengeRepository challengeRepository;
     private final QuestionRepository questionRepository;
+    private final ParticipationRepository participationRepository;
 
     @Override
     public List<ChallengeListItemDto> findChallengeSummaries(int page, int limit) {
@@ -31,12 +34,24 @@ public class ChallengeSearchServiceImpl implements ChallengeSearchService {
 
     @Override
     public List<QuestionDto> findQuestionsOfChallenge(Long challengeId) {
-        Challenge challenge=challengeRepository.findById(challengeId)
-                .orElseThrow(()->{
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow(() -> {
                     throw new IllegalArgumentException("해당 id의 challenge가 존재하지 않습니다.");
                 });
         return questionRepository.findQuestionByChallenge(challenge)
-                .stream().map(question->QuestionDto.fromEntity(question))
+                .stream().map(question -> QuestionDto.fromEntity(question))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ParticipationDto> findParticipationsOfChallenge(Long challengeId, int page, int limit) {
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow(() -> {
+                    throw new IllegalArgumentException("해당 id의 challenge가 존재하지 않습니다.");
+                });
+
+        return participationRepository.findParticipationByChallenge(challenge,PageRequest.of(page,limit))
+                .stream().map(participation -> ParticipationDto.fromEntity(participation))
                 .collect(Collectors.toList());
     }
 }
