@@ -1,6 +1,7 @@
 package ac.kr.kw.judge.challenge.adapter.in.web;
 
 import ac.kr.kw.judge.challenge.dto.out.ChallengeListItemDto;
+import ac.kr.kw.judge.challenge.dto.out.ParticipationDto;
 import ac.kr.kw.judge.challenge.dto.out.QuestionDto;
 import ac.kr.kw.judge.challenge.service.port.in.ChallengeSearchService;
 import ac.kr.kw.judge.commons.api.ApiResult;
@@ -27,5 +28,12 @@ public class ChallengeSearchController {
     @GetMapping("/api/challenges/{challengeId}/questions")
     public ApiResult<List<QuestionDto>> findQuestionsOfChallenge(@PathVariable("challengeId") Long challengeId){
         return ApiUtils.success(challengeSearchService.findQuestionsOfChallenge(challengeId));
+    }
+
+    @GetMapping("/api/challenges/{challengeId}/participations")
+    public ApiResult<List<ParticipationDto>>findParticipationsOfChallenge(@PathVariable("challengeId")Long challengeId,
+                                                                          @RequestParam(required = false, defaultValue = "0") int page,
+                                                                          @RequestParam(required = false, defaultValue = "10") int limit){
+        return ApiUtils.success(challengeSearchService.findParticipationsOfChallenge(challengeId,page,limit));
     }
 }
