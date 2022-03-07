@@ -1,5 +1,7 @@
 package ac.kr.kw.judge.challenge.domain;
 
+import java.util.Arrays;
+
 public enum ProgrammingLanguage {
     CPP("CPP"), C("C"), JAVA("JAVA");
     private String value;
@@ -10,5 +12,13 @@ public enum ProgrammingLanguage {
 
     public String getValue() {
         return value;
+    }
+
+    public static void checkLanguageIsSupported(String language) {
+        Arrays.stream(ProgrammingLanguage.values())
+                .filter(programmingLanguage -> language.equals(programmingLanguage.toString()))
+                .findFirst().orElseThrow(() -> {
+            throw new IllegalArgumentException("해당 language는 지원하지 않는 언어입니다.");
+        });
     }
 }
