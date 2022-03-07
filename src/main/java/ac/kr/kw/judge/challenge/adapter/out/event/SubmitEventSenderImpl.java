@@ -1,8 +1,7 @@
 package ac.kr.kw.judge.challenge.adapter.out.event;
 
-import ac.kr.kw.judge.challenge.domain.event.Submitted;
-import ac.kr.kw.judge.challenge.service.port.out.SubmitEventSender;
-import ac.kr.kw.judge.commons.exception.SubmitEventPublishException;
+import ac.kr.kw.judge.challenge.service.port.out.EventSender;
+import ac.kr.kw.judge.commons.exception.EventPublishFailedException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -11,17 +10,27 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SubmitEventSenderImpl implements SubmitEventSender {
+public class SubmitEventSenderImpl implements EventSender {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
     @Override
-    public void publish(Submitted submitted) {
+    public void publish(String topic, Object data) {
         try {
-            kafkaTemplate.send("submit", objectMapper.writeValueAsString(submitted));
+            kafkaTemplate.send(topic, objectMapper.writeValueAsString(data));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            throw new SubmitEventPublishException(e.getMessage());
+            throw new EventPublishFailedException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void publishWithKey(String topic, String key, Object data) {
+        try {
+            kafkaTemplate.send(topic, key, objectMapper.writeValueAsString(data));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new EventPublishFailedException(e.getMessage());
         }
     }
 }
