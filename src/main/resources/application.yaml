@@ -28,3 +28,8 @@ spring:
     username: sa
     password:
     url: jdbc:h2:mem:challenge;MODE=MYSQL;DB_CLOSE_DELAY=-1
+  kafka:
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
