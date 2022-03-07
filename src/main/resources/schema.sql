@@ -55,7 +55,7 @@ create table submits
     problem_id           bigint       NOT NULL,
     programming_language varchar(255) NOT NULL,
     score                integer      NOT NULL default 0,
-    source_code          varchar(255) NOT NULL,
+    source_code          varchar(2048) NOT NULL,
     submit_status        integer      NOT NULL,
     submitted_at         timestamp    NOT NULL,
     participation_id     bigint       NOT NULL,
