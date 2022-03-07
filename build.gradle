@@ -14,7 +14,7 @@ configurations {
     }
 }
 
-repositories {org.apache.kafka.common.serialization.StringSerializer
+repositories {
     mavenCentral()
 }
 
