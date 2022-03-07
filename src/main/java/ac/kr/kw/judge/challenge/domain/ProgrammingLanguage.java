@@ -1,7 +1,7 @@
 package ac.kr.kw.judge.challenge.domain;
 
 public enum ProgrammingLanguage {
-    CPP("C++"), C("C"), JAVA("JAVA"), PYTHON("PYTHON"), JAVASCRIPT("JAVASCRIPT");
+    CPP("CPP"), C("C"), JAVA("JAVA");
     private String value;
 
     ProgrammingLanguage(String value) {
