@@ -21,11 +21,10 @@ public class SubmitSolutionController {
     public ApiResult submitSolution(@PathVariable("challengeId") Long challengeId,
                                     @PathVariable("participationId") Long participationId,
                                     @RequestBody SubmitRequestDto submitRequestDto) {
-        ProgrammingLanguage.checkLanguageIsSupported(submitRequestDto.getProgrammingLanguage());
 
         SolutionSubmitCommand solutionSubmitCommand = new SolutionSubmitCommand(participationId
                 , submitRequestDto.getProblemId()
-                , ProgrammingLanguage.valueOf(submitRequestDto.getProgrammingLanguage())
+                , ProgrammingLanguage.ofSupportedLanguage(submitRequestDto.getProgrammingLanguage())
                 , submitRequestDto.getSourceCode());
         submitSolutionService.submitSolution(challengeId, solutionSubmitCommand);
         return ApiUtils.simpleMessage("successfully submit your code.");
