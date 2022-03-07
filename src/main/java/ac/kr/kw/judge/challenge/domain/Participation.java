@@ -52,8 +52,10 @@ public class Participation {
         return new Participation(userId, name, challenge, submits);
     }
 
-    public void submitSolutionOfQuestion(Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
-        this.submits.add(Submit.withoutId(problemId, this, programmingLanguage, sourceCode));
+    public Submit submitSolutionOfQuestion(Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
+        Submit submit = Submit.withoutId(problemId, this, programmingLanguage, sourceCode);
+        this.submits.add(submit);
+        return submit;
     }
 
     public void completeGradingOfSubmit(Long submitId, SubmitStatus status, ChallengeScore challengeScore) {

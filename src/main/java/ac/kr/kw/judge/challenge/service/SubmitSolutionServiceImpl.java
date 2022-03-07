@@ -2,9 +2,11 @@ package ac.kr.kw.judge.challenge.service;
 
 import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.domain.Participation;
+import ac.kr.kw.judge.challenge.domain.Submit;
 import ac.kr.kw.judge.challenge.domain.event.Submitted;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
 import ac.kr.kw.judge.challenge.repository.ParticipationRepository;
+import ac.kr.kw.judge.challenge.repository.SubmitRepository;
 import ac.kr.kw.judge.challenge.service.port.in.SubmitSolutionService;
 import ac.kr.kw.judge.challenge.service.command.CompleteGradingSubmitCommand;
 import ac.kr.kw.judge.challenge.service.command.SolutionSubmitCommand;
@@ -19,20 +21,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class SubmitSolutionServiceImpl implements SubmitSolutionService {
     private final ChallengeRepository challengeRepository;
     private final ParticipationRepository participationRepository;
+    private final SubmitRepository submitRepository;
     private final EventSender eventSender;
 
     @Override
     public void submitSolution(Long challengeId, SolutionSubmitCommand solutionSubmitCommand) {
         Challenge challenge = ChallengeFindHelper.findChallengeById(challengeId, challengeRepository);
-        challenge.submitSolutionOfQuestion(solutionSubmitCommand.getParticipationId()
+        Submit submit = challenge.submitSolutionOfQuestion(solutionSubmitCommand.getParticipationId()
                 , solutionSubmitCommand.getProblemId()
                 , solutionSubmitCommand.getProgrammingLanguage()
                 , solutionSubmitCommand.getSourceCode());
 
-        eventSender.publish("submit", Submitted.of(solutionSubmitCommand.getProblemId(),
-                solutionSubmitCommand.getParticipationId(),
-                solutionSubmitCommand.getProgrammingLanguage().getValue(),
-                solutionSubmitCommand.getSourceCode()));
+        submitRepository.save(submit);
+        eventSender.publish("submit", Submitted.of(solutionSubmitCommand.getProblemId()
+                , solutionSubmitCommand.getParticipationId()
+                , submit.getId()
+                , solutionSubmitCommand.getProgrammingLanguage().getValue()
+                , solutionSubmitCommand.getSourceCode()));
     }
 
     @Override

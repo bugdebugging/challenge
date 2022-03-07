@@ -132,14 +132,14 @@ public class Challenge {
         this.challengeDateTime = challengeDateTime;
     }
 
-    public void submitSolutionOfQuestion(Long participationId, Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
+    public Submit submitSolutionOfQuestion(Long participationId, Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
         verifyCanSubmit(problemId);
         Participation participator = this.participations.stream()
                 .filter(participation -> participation.getId().equals(participationId))
                 .findFirst().orElseThrow(() -> {
                     throw new IllegalArgumentException("해당 id의 참여자가 존재하지 않습니다.");
                 });
-        participator.submitSolutionOfQuestion(problemId, programmingLanguage, sourceCode);
+        return participator.submitSolutionOfQuestion(problemId, programmingLanguage, sourceCode);
     }
 
     private void verifyCanSubmit(Long problemId) {
