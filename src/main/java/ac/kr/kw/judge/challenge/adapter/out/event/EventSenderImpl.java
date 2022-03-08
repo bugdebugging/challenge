@@ -20,7 +20,6 @@ public class EventSenderImpl implements EventSender {
             kafkaTemplate.send(topic, objectMapper.writeValueAsString(data));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            throw new EventPublishFailedException(e.getMessage());
         }
     }
 
@@ -30,7 +29,6 @@ public class EventSenderImpl implements EventSender {
             kafkaTemplate.send(topic, key, objectMapper.writeValueAsString(data));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            throw new EventPublishFailedException(e.getMessage());
         }
     }
 }
