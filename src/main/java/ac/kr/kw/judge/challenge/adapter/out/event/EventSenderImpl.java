@@ -1,7 +1,6 @@
 package ac.kr.kw.judge.challenge.adapter.out.event;
 
 import ac.kr.kw.judge.challenge.service.port.out.EventSender;
-import ac.kr.kw.judge.commons.exception.EventPublishFailedException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
