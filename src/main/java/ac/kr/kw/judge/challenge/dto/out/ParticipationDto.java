@@ -3,13 +3,13 @@ package ac.kr.kw.judge.challenge.dto.out;
 import ac.kr.kw.judge.challenge.domain.Participation;
 
 public class ParticipationDto {
-    private Long id;
+    private Long participationId;
     private Long userId;
     private String name;
     private int challengeScore;
 
-    private ParticipationDto(Long id, Long userId, String name, int challengeScore) {
-        this.id = id;
+    private ParticipationDto(Long participationId, Long userId, String name, int challengeScore) {
+        this.participationId = participationId;
         this.userId = userId;
         this.name = name;
         this.challengeScore = challengeScore;
@@ -22,8 +22,8 @@ public class ParticipationDto {
                 participation.getChallengeScore().getScore());
     }
 
-    public Long getId() {
-        return id;
+    public Long getParticipationId() {
+        return participationId;
     }
 
     public Long getUserId() {
