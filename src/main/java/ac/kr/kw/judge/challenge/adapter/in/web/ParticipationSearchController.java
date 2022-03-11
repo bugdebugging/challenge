@@ -9,7 +9,6 @@ import ac.kr.kw.judge.commons.api.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.List;
 public class ParticipationSearchController {
     private final ParticipationSearchService participationSearchService;
 
-    @GetMapping("/api/challenges/{challengeId}/participations/{participationId}")
+    @GetMapping("/api/challenges/{challengeId}/participations/{participationId}/submits")
     public ApiResult<List<SubmitItemDto>> searchSubmitOfParticipation(@PathVariable("challengeId") Long challengeId,
                                                                       @PathVariable("participationId") Long participationId) {
         return ApiUtils.success(participationSearchService.findSubmitListOfParticipation(participationId));
