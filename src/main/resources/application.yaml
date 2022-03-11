@@ -33,3 +33,6 @@ spring:
       bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+rest-client:
+  problem-catalog: http://localhost:8081/api/problem_catalogs/containing

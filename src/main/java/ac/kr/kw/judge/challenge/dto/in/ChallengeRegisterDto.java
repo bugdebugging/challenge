@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ChallengeRegisterDto {
     private List<Author> authors;
-    private List<QuestionRegisterDto>questions;
+    private List<Long> problemIds;
     private String name;
     private ChallengeDateTime challengeDateTime;
 
@@ -18,8 +18,8 @@ public class ChallengeRegisterDto {
         return authors;
     }
 
-    public List<QuestionRegisterDto> getQuestions() {
-        return questions;
+    public List<Long> getProblemIds() {
+        return problemIds;
     }
 
     public String getName() {
