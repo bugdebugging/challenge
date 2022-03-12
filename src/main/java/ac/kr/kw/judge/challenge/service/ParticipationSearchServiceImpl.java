@@ -4,6 +4,7 @@ import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.domain.Participation;
 import ac.kr.kw.judge.challenge.domain.Submit;
 import ac.kr.kw.judge.challenge.dto.out.ParticipationDto;
+import ac.kr.kw.judge.challenge.dto.out.SubmitDetailDto;
 import ac.kr.kw.judge.challenge.dto.out.SubmitItemDto;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
 import ac.kr.kw.judge.challenge.repository.ParticipationRepository;
@@ -37,12 +38,12 @@ public class ParticipationSearchServiceImpl implements ParticipationSearchServic
     }
 
     @Override
-    public SubmitItemDto findSubmitDetail(Long submitId) {
+    public SubmitDetailDto findSubmitDetail(Long submitId) {
         Submit submit = submitRepository.findById(submitId)
                 .orElseThrow(() -> {
                     throw new IllegalArgumentException("해당 id의 제출이 존재하지 않습니다.");
                 });
-        return SubmitItemDto.fromEntity(submit);
+        return SubmitDetailDto.fromEntity(submit);
     }
 
     @Override
