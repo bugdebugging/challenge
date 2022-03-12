@@ -3,12 +3,12 @@ package ac.kr.kw.judge.challenge.dto.in;
 import java.util.List;
 
 public class QuestionModifyWrapper {
-    List<QuestionRegisterDto> questions;
+    List<Long> questions;
 
     public QuestionModifyWrapper() {
     }
 
-    public List<QuestionRegisterDto> getQuestions() {
+    public List<Long> getQuestions() {
         return questions;
     }
 }

@@ -1,5 +1,6 @@
 package ac.kr.kw.judge.challenge.adapter.in.web;
 
+import ac.kr.kw.judge.challenge.adapter.out.web.ProblemClient;
 import ac.kr.kw.judge.challenge.dto.in.AuthorsModifyWrapper;
 import ac.kr.kw.judge.challenge.dto.in.ChallengeInfoModifyDto;
 import ac.kr.kw.judge.challenge.dto.in.QuestionModifyWrapper;
@@ -24,15 +25,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ChallengeModifyController {
     private final ChallengeModifyService challengeModifyService;
+    private final ProblemClient problemClient;
 
     @ApiOperation(value = "출제문제 수정", notes = "대회에 출제될 문제 수정")
     @PutMapping("/api/challenges/{challengeId}/questions")
     public ApiResult modifyChallengeQuestions(@PathVariable("challengeId") Long challengeId,
                                               @RequestBody QuestionModifyWrapper questionModifyWrapper) {
-        List<QuestionRegisterCommand> questionRegisterCommands = questionModifyWrapper.getQuestions().stream()
-                .map(question -> new QuestionRegisterCommand(question.getProblemId(), question.getTitle()))
+        List<QuestionRegisterCommand> questionRegisterCommand = problemClient.findProblemsContainingIds(questionModifyWrapper.getQuestions())
+                .stream().map(problemDto -> new QuestionRegisterCommand(problemDto.getId(), problemDto.getName()))
                 .collect(Collectors.toList());
-        challengeModifyService.changeQuestions(challengeId, questionRegisterCommands);
+
+        challengeModifyService.changeQuestions(challengeId, questionRegisterCommand);
         return ApiUtils.simpleMessage("You have successfully changed the questions.");
     }
 
