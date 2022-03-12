@@ -2,7 +2,6 @@ package ac.kr.kw.judge.challenge.adapter.in.web;
 
 import ac.kr.kw.judge.challenge.adapter.out.web.ProblemClient;
 import ac.kr.kw.judge.challenge.dto.in.ChallengeRegisterDto;
-import ac.kr.kw.judge.challenge.dto.in.ProblemDto;
 import ac.kr.kw.judge.challenge.service.command.ChallengeRegisterCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import ac.kr.kw.judge.challenge.service.port.in.ChallengeRegisterService;
@@ -29,7 +28,7 @@ public class ChallengeRegisterController {
     @PostMapping("/api/challenges")
     public ApiResult registerChallenge(@RequestBody ChallengeRegisterDto challengeRegisterDto) {
         List<QuestionRegisterCommand> questionRegisterCommands =
-                problemClient.findProblemsContainingIds(challengeRegisterDto.getProblemIds())
+                problemClient.findProblemsContainingIds(challengeRegisterDto.getQuestions())
                         .stream().map(problemDto -> new QuestionRegisterCommand(problemDto.getId(), problemDto.getName()))
                         .collect(Collectors.toList());
 
