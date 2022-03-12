@@ -1,16 +1,12 @@
 package ac.kr.kw.judge.challenge.dto.out;
 
-import ac.kr.kw.judge.challenge.domain.Author;
 import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.domain.ChallengeDateTime;
-
-import java.util.List;
 
 public class ChallengeListItemDto {
     private Long id;
     private String name;
     private ChallengeDateTime challengeDateTime;
-    private List<Author> authors;
     private int numOfParticipation;
     private int numOfQuestion;
 
@@ -18,7 +14,6 @@ public class ChallengeListItemDto {
         this.id = challenge.getId();
         this.name = challenge.getName();
         this.challengeDateTime = challenge.getChallengeDateTime();
-        this.authors = challenge.getAuthors();
         this.numOfParticipation = numOfParticipation;
         this.numOfQuestion = numOfQuestion;
     }
@@ -33,10 +28,6 @@ public class ChallengeListItemDto {
 
     public ChallengeDateTime getChallengeDateTime() {
         return challengeDateTime;
-    }
-
-    public List<Author> getAuthors() {
-        return authors;
     }
 
     public int getNumOfParticipation() {
