@@ -1,7 +1,6 @@
 package ac.kr.kw.judge.challenge.repository;
 
 import ac.kr.kw.judge.challenge.domain.Challenge;
-import ac.kr.kw.judge.challenge.dto.out.ChallengeListItemDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
