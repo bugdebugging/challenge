@@ -24,18 +24,21 @@ import java.util.stream.Collectors;
 public class ProblemClientImpl implements ProblemClient {
     private RestTemplate restTemplate;
     private ObjectMapper objectMapper;
-    private String url;
+    private String host;
+    private static final String GET_PROBLEM_DTO_CONTAINING_IDS = "/api/problem_catalogs/containing";
 
     @Autowired
-    public ProblemClientImpl(RestTemplateBuilder builder, ObjectMapper objectMapper, @Value("${rest-client.problem-catalog}") String url) {
+    public ProblemClientImpl(RestTemplateBuilder builder
+            , ObjectMapper objectMapper
+            , @Value("${rest-client.problem-catalog.host}") String host) {
         this.restTemplate = builder.build();
         this.objectMapper = objectMapper;
-        this.url = url;
+        this.host = host;
     }
 
     @Override
     public List<ProblemDto> findProblemsContainingIds(List<Long> problemIds) {
-        String urlWithParams = UriComponentsBuilder.fromHttpUrl(url)
+        String urlWithParams = UriComponentsBuilder.fromHttpUrl(host+GET_PROBLEM_DTO_CONTAINING_IDS)
                 .queryParam("problemIds", StringUtils.join(problemIds, ','))
                 .toUriString();
 

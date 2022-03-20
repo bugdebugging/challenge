@@ -66,3 +66,4 @@ services:
       - kafka
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - CATALOG_SERVER=problem:8081

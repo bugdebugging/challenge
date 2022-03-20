@@ -35,4 +35,5 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 rest-client:
-  problem-catalog: http://3.37.145.99:8081/api/problem_catalogs/containing
+  problem-catalog:
+    host: ${CATALOG_SERVER}
