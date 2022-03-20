@@ -11,6 +11,7 @@ services:
       - app-tier
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+      - TZ=Asia/Seoul
 
   kafka:
     image: 'bitnami/kafka:latest'
@@ -20,6 +21,7 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_HEAP_OPTS=-Xmx256m -Xms256m
+      - TZ=Asia/Seoul
 
   mongo:
     container_name: 'local-mongo'
@@ -28,9 +30,11 @@ services:
       - app-tier
     ports:
       - "27017:27017"
+    environment:
+      - TZ=Asia/Seoul
 
-  problem_catalog:
-    container_name: 'problem-catalog'
+  catalog:
+    container_name: 'catalog'
     image: 'isvara/problem-catalog:1.0'
     networks:
       - app-tier
@@ -42,6 +46,7 @@ services:
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - MONGO_DB_HOST=mongo:27017
+      - TZ=Asia/Seoul
 
   problem:
     container_name: 'problem'
@@ -54,6 +59,7 @@ services:
       - kafka
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - TZ=Asia/Seoul
 
   challenge:
     container_name: 'challenge'
@@ -66,4 +72,5 @@ services:
       - kafka
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-      - CATALOG_SERVER=problem:8081
+      - CATALOG_SERVER=http://catalog:8081
+      - TZ=Asia/Seoul
