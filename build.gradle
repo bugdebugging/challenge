@@ -13,7 +13,9 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
-
+test{
+    environment "CATALOG_SERVER","http://localhost:8081"
+}
 repositories {
     mavenCentral()
 }
