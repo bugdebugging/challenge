@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 @Component
 public class ProblemClientImpl implements ProblemClient {
     private RestTemplate restTemplate;
@@ -38,15 +40,17 @@ public class ProblemClientImpl implements ProblemClient {
 
     @Override
     public List<ProblemDto> findProblemsContainingIds(List<Long> problemIds) {
-        String urlWithParams = UriComponentsBuilder.fromHttpUrl(host+GET_PROBLEM_DTO_CONTAINING_IDS)
+        String urlWithParams = UriComponentsBuilder.fromHttpUrl(host + GET_PROBLEM_DTO_CONTAINING_IDS)
                 .queryParam("problemIds", StringUtils.join(problemIds, ','))
                 .toUriString();
 
         ResponseEntity<String> response = restTemplate.getForEntity(urlWithParams, String.class);
-        if (response.getStatusCode() == HttpStatus.ACCEPTED) {
-            throw new IllegalArgumentException("해당 id의 문제들을 찾을 수 없습니다.");
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new IllegalArgumentException("문제를 탐색할 수 없습니다.");
         }
-        return convertToProblemDto(response);
+        List<ProblemDto> result = convertToProblemDto(response);
+        checkArgument(result.size() == problemIds.size(), "해당 id의 문제들을 찾을 수 없습니다.");
+        return result;
     }
 
     private List<ProblemDto> convertToProblemDto(ResponseEntity<String> response) {
