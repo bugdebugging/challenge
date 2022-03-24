@@ -17,8 +17,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    public ResponseEntity<ApiResult>handleInvalidRequest(Exception e){
+    public ResponseEntity<ApiResult> handleInvalidRequest(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiUtils.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
+    }
+
+    @ExceptionHandler({UnAuthorizedException.class})
+    public ResponseEntity<ApiResult> handleForbiddenRequest(Exception e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(ApiUtils.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
     }
 }
