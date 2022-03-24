@@ -25,6 +25,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({UnAuthorizedException.class})
     public ResponseEntity<ApiResult> handleForbiddenRequest(Exception e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(ApiUtils.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
+                .body(ApiUtils.fail(HttpStatus.FORBIDDEN.value(), e.getMessage()));
     }
 }
