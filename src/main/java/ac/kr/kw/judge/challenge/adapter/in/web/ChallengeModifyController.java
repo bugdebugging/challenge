@@ -9,6 +9,7 @@ import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import ac.kr.kw.judge.challenge.service.port.in.ChallengeModifyService;
 import ac.kr.kw.judge.commons.api.ApiResult;
 import ac.kr.kw.judge.commons.api.ApiUtils;
+import ac.kr.kw.judge.commons.auth.AuthorizedUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,8 @@ public class ChallengeModifyController {
     @ApiOperation(value = "출제문제 수정", notes = "대회에 출제될 문제 수정")
     @PutMapping("/api/challenges/{challengeId}/questions")
     public ApiResult modifyChallengeQuestions(@PathVariable("challengeId") Long challengeId,
-                                              @RequestBody QuestionModifyWrapper questionModifyWrapper) {
+                                              @RequestBody QuestionModifyWrapper questionModifyWrapper,
+                                              @AuthorizedUser String username) {
         List<QuestionRegisterCommand> questionRegisterCommand = problemClient.findProblemsContainingIds(questionModifyWrapper.getQuestions())
                 .stream().map(problemDto -> new QuestionRegisterCommand(problemDto.getId(), problemDto.getName()))
                 .collect(Collectors.toList());
@@ -42,7 +44,8 @@ public class ChallengeModifyController {
     @ApiOperation(value = "출제진 수정", notes = "대회의 출제진 수정")
     @PutMapping("/api/challenges/{challengeId}/authors")
     public ApiResult modifyChallengeAuthors(@PathVariable("challengeId") Long challengeId,
-                                            @RequestBody AuthorsModifyWrapper authorsModifyWrapper) {
+                                            @RequestBody AuthorsModifyWrapper authorsModifyWrapper,
+                                            @AuthorizedUser String username) {
         challengeModifyService.changeAuthors(challengeId, authorsModifyWrapper.getAuthors());
         return ApiUtils.simpleMessage("You have successfully changed the authors.");
     }
@@ -50,7 +53,8 @@ public class ChallengeModifyController {
     @ApiOperation(value = "대회 정보 수정", notes = "대회 정보 수정")
     @PutMapping("/api/challenges/{challengeId}/info")
     public ApiResult modifyChallengeInfo(@PathVariable("challengeId") Long challengeId,
-                                         @RequestBody ChallengeInfoModifyDto challengeInfoModifyDto) {
+                                         @RequestBody ChallengeInfoModifyDto challengeInfoModifyDto,
+                                         @AuthorizedUser String username) {
         ChallengeInfoModifyCommand challengeInfoModifyCommand = new ChallengeInfoModifyCommand(challengeInfoModifyDto.getName(), challengeInfoModifyDto.getChallengeDateTime());
         challengeModifyService.changeChallengeInfo(challengeId, challengeInfoModifyCommand);
         return ApiUtils.simpleMessage("You have successfully changed the challenge info.");
