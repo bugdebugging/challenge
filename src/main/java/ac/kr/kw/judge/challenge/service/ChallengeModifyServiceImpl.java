@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ChallengeModifyServiceImpl implements ChallengeModifyService {
     private final ChallengeRepository challengeRepository;
-    private EventSender eventSender;
+    private final EventSender eventSender;
 
     @Override
     public void changeQuestions(Long challengeId, List<QuestionRegisterCommand> questionRegisterCommands) {
