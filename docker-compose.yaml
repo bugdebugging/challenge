@@ -33,6 +33,25 @@ services:
     environment:
       - TZ=Asia/Seoul
 
+  api-gateway:
+    container_name: 'api-gateway'
+    image: 'isvara/api-gateway:1.0'
+    networks:
+      - app-tier
+    ports:
+    - "8080:8080"
+    depends_on:
+      - catalog
+      - challenge
+      - user
+      - problem
+    environment:
+      - TZ=Asia/Seoul
+      - CATALOG_SVC=http://catalog:8081
+      - CHALLENGE_SVC=http://challenge:8082
+      - USER_SVC=http://user:8083
+      - PROBLEM=http:problem:8084
+
   catalog:
     container_name: 'catalog'
     image: 'isvara/problem-catalog:1.0'
@@ -54,7 +73,7 @@ services:
     networks:
       - app-tier
     ports:
-      - "8080:8080"
+      - "8084:8084"
     depends_on:
       - kafka
     environment:
@@ -74,3 +93,15 @@ services:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - CATALOG_SERVER=http://catalog:8081
       - TZ=Asia/Seoul
+
+  user:
+    container_name: 'user'
+    image: 'isvara/user:1.0'
+    networks:
+      - app-tier
+    ports:
+      - "8083:8083"
+    environment:
+      - JWT_SECRET=testsecret
+      - JWT.ISSUER=k-judge
+      - JWT.DURATION_TIME=600
