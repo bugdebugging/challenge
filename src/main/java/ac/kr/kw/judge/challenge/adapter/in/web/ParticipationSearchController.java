@@ -30,10 +30,4 @@ public class ParticipationSearchController {
                                                          @PathVariable("submitId") Long submitId) {
         return ApiUtils.success(participationSearchService.findSubmitDetail(submitId));
     }
-
-    @GetMapping("/api/challenges/{challengeId}/users/{userId}")
-    public ApiResult<ParticipationDto> searchParticipationInfoOfUser(@PathVariable("challengeId") Long challengeId,
-                                                                     @PathVariable("userId") Long userId) {
-        return ApiUtils.success(participationSearchService.findParticipationInfoOfUser(challengeId, userId));
-    }
 }

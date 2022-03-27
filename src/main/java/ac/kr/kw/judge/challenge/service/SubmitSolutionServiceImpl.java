@@ -7,11 +7,10 @@ import ac.kr.kw.judge.challenge.domain.event.Submitted;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
 import ac.kr.kw.judge.challenge.repository.ParticipationRepository;
 import ac.kr.kw.judge.challenge.repository.SubmitRepository;
-import ac.kr.kw.judge.challenge.service.port.in.SubmitSolutionService;
 import ac.kr.kw.judge.challenge.service.command.CompleteGradingSubmitCommand;
 import ac.kr.kw.judge.challenge.service.command.SolutionSubmitCommand;
+import ac.kr.kw.judge.challenge.service.port.in.SubmitSolutionService;
 import ac.kr.kw.judge.challenge.service.port.out.EventSender;
-import ac.kr.kw.judge.commons.exception.UnAuthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,30 +26,35 @@ public class SubmitSolutionServiceImpl implements SubmitSolutionService {
 
     @Override
     public void submitSolution(Long challengeId, SolutionSubmitCommand solutionSubmitCommand) {
-        Challenge challenge = ChallengeFindHelper.findChallengeById(challengeId, challengeRepository);
-        Participation participation = participationRepository.findParticipationByChallengeAndUserId(challenge, solutionSubmitCommand.getParticipationId())
+        Challenge challenge = challengeRepository.findChallengeWithParticipation(challengeId)
                 .orElseThrow(() -> {
-                    throw new IllegalArgumentException("해당 사용자가 없습니다.");
+                    throw new IllegalArgumentException("해당 id의 대회가 존재하지 않습니다.");
                 });
-        if (!participation.getName().equals(solutionSubmitCommand.getUsername())) {
-            throw new UnAuthorizedException("본인의 솔루션만 제출할 수 있습니다.");
-        }
-        Submit submit = challenge.submitSolutionOfQuestion(solutionSubmitCommand.getParticipationId()
+        Submit submit = challenge.submitSolutionOfQuestion(solutionSubmitCommand.getUsername()
                 , solutionSubmitCommand.getProblemId()
                 , solutionSubmitCommand.getProgrammingLanguage()
                 , solutionSubmitCommand.getSourceCode());
 
         submitRepository.save(submit);
         eventSender.publish("submit", Submitted.of(solutionSubmitCommand.getProblemId()
-                , solutionSubmitCommand.getParticipationId()
+                , solutionSubmitCommand.getUsername()
+                , challengeId
                 , submit.getId()
                 , solutionSubmitCommand.getProgrammingLanguage().getValue()
                 , solutionSubmitCommand.getSourceCode()));
     }
 
     @Override
-    public void completeGradingOfSubmit(Long participationId, CompleteGradingSubmitCommand completeGradingSubmitCommand) {
-        Participation participation = ParticipationFindHelper.findParticipationById(participationId, participationRepository);
+    public void completeGradingOfSubmit(String username, CompleteGradingSubmitCommand completeGradingSubmitCommand) {
+        Challenge challenge = challengeRepository.findById(completeGradingSubmitCommand.getChallengeId())
+                .orElseThrow(() -> {
+                    throw new IllegalArgumentException("해당 id의 대회가 존재하지않습니다.");
+                });
+
+        Participation participation = participationRepository.findParticipationByChallengeAndName(challenge, completeGradingSubmitCommand.getUsername())
+                .orElseThrow(() -> {
+                    throw new IllegalArgumentException("해당 참여자가 존재하지 않습니다.");
+                });
         participation.completeGradingOfSubmit(completeGradingSubmitCommand.getSubmitId()
                 , completeGradingSubmitCommand.getStatus()
                 , completeGradingSubmitCommand.getChallengeScore());

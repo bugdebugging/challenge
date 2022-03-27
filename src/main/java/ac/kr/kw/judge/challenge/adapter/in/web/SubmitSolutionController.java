@@ -18,13 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class SubmitSolutionController {
     private final SubmitSolutionService submitSolutionService;
 
-    @PostMapping("/api/challenges/{challengeId}/participations/{participationId}/submits")
+    @PostMapping("/api/challenges/{challengeId}/participations/submits")
     public ApiResult submitSolution(@PathVariable("challengeId") Long challengeId,
-                                    @PathVariable("participationId") Long participationId,
                                     @RequestBody SubmitRequestDto submitRequestDto,
                                     @AuthorizedUser String username) {
-        SolutionSubmitCommand solutionSubmitCommand = new SolutionSubmitCommand(participationId
-                , submitRequestDto.getProblemId()
+        SolutionSubmitCommand solutionSubmitCommand = new SolutionSubmitCommand(submitRequestDto.getProblemId()
                 , ProgrammingLanguage.ofSupportedLanguage(submitRequestDto.getProgrammingLanguage())
                 , submitRequestDto.getSourceCode()
                 , username);

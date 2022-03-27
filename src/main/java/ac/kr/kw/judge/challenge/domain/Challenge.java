@@ -132,10 +132,10 @@ public class Challenge {
         this.challengeDateTime = challengeDateTime;
     }
 
-    public Submit submitSolutionOfQuestion(Long participationId, Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
+    public Submit submitSolutionOfQuestion(String username, Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
         verifyCanSubmit(problemId);
         Participation participator = this.participations.stream()
-                .filter(participation -> participation.getId().equals(participationId))
+                .filter(participation -> participation.getName().equals(username))
                 .findFirst().orElseThrow(() -> {
                     throw new IllegalArgumentException("해당 id의 참여자가 존재하지 않습니다.");
                 });

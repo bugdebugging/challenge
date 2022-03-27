@@ -23,9 +23,11 @@ public class SubmitCompleteListener {
         try {
             CompletedSubmit completedSubmit = objectMapper.readValue(message, CompletedSubmit.class);
             CompleteGradingSubmitCommand completeGradingSubmitCommand = new CompleteGradingSubmitCommand(completedSubmit.getSubmitId()
+                    , completedSubmit.getChallengeId()
+                    , completedSubmit.getUsername()
                     , completedSubmit.getResult().getStatus() == GradingStatus.SUCCESS ? SubmitStatus.SUCCESS : SubmitStatus.FAILED
                     , ChallengeScore.of(completedSubmit.getResult().getScore()));
-            submitSolutionService.completeGradingOfSubmit(completedSubmit.getParticipationId(), completeGradingSubmitCommand);
+            submitSolutionService.completeGradingOfSubmit(completedSubmit.getUsername(), completeGradingSubmitCommand);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

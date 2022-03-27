@@ -5,5 +5,5 @@ import ac.kr.kw.judge.challenge.service.command.SolutionSubmitCommand;
 
 public interface SubmitSolutionService {
     void submitSolution(Long challengeId, SolutionSubmitCommand solutionSubmitCommand);
-    void completeGradingOfSubmit(Long participationId, CompleteGradingSubmitCommand completeGradingSubmitCommand);
+    void completeGradingOfSubmit(String username, CompleteGradingSubmitCommand completeGradingSubmitCommand);
 }

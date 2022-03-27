@@ -11,5 +11,5 @@ public interface ParticipationSearchService {
 
     SubmitDetailDto findSubmitDetail(Long submitId);
 
-    ParticipationDto findParticipationInfoOfUser(Long challengeId, Long userId);
+//    ParticipationDto findParticipationInfoOfUser(Long challengeId, Long userId);
 }

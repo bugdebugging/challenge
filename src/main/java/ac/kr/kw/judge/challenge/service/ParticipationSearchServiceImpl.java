@@ -46,16 +46,16 @@ public class ParticipationSearchServiceImpl implements ParticipationSearchServic
         return SubmitDetailDto.fromEntity(submit);
     }
 
-    @Override
-    public ParticipationDto findParticipationInfoOfUser(Long challengeId, Long userId) {
-        Challenge challenge = challengeRepository.findById(challengeId)
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("해당 id의 대회가 존재하지 않습니다.");
-                });
-        Participation participation = participationRepository.findParticipationByChallengeAndUserId(challenge, userId)
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("해당 id의 사용자가 참여한적이 없습니다.");
-                });
-        return ParticipationDto.fromEntity(participation);
-    }
+//    @Override
+//    public ParticipationDto findParticipationInfoOfUser(Long challengeId, Long userId) {
+//        Challenge challenge = challengeRepository.findById(challengeId)
+//                .orElseThrow(() -> {
+//                    throw new IllegalArgumentException("해당 id의 대회가 존재하지 않습니다.");
+//                });
+//        Participation participation = participationRepository.findParticipationByChallengeAndUserId(challenge, userId)
+//                .orElseThrow(() -> {
+//                    throw new IllegalArgumentException("해당 id의 사용자가 참여한적이 없습니다.");
+//                });
+//        return ParticipationDto.fromEntity(participation);
+//    }
 }

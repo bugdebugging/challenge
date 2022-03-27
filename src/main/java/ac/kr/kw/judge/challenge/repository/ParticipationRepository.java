@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface ParticipationRepository extends JpaRepository<Participation, Long> {
     List<Participation> findParticipationByChallenge(Challenge challenge, Pageable pageable);
 
-    Optional<Participation> findParticipationByChallengeAndUserId(Challenge challenge, Long userId);
+    Optional<Participation> findParticipationByChallengeAndName(Challenge challenge, String username);
 }

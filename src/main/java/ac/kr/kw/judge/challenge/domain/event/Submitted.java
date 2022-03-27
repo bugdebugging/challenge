@@ -2,29 +2,35 @@ package ac.kr.kw.judge.challenge.domain.event;
 
 public class Submitted {
     private Long problemId;
-    private Long participationId;
+    private String username;
+    private Long challengeId;
     private Long submitId;
     private String programmingLanguage;
     private String sourceCode;
 
-    private Submitted(Long problemId, Long participationId, Long submitId, String programmingLanguage, String sourceCode) {
+    private Submitted(Long problemId, String username, Long challengeId, Long submitId, String programmingLanguage, String sourceCode) {
         this.problemId = problemId;
-        this.participationId = participationId;
+        this.username = username;
+        this.challengeId = challengeId;
         this.submitId = submitId;
         this.programmingLanguage = programmingLanguage;
         this.sourceCode = sourceCode;
     }
 
-    public static Submitted of(Long problemId, Long participationId, Long submitId, String programmingLanguage, String sourceCode) {
-        return new Submitted(problemId, participationId, submitId, programmingLanguage, sourceCode);
+    public static Submitted of(Long problemId, String username, Long challengeId, Long submitId, String programmingLanguage, String sourceCode) {
+        return new Submitted(problemId, username, challengeId, submitId, programmingLanguage, sourceCode);
     }
 
     public Long getProblemId() {
         return problemId;
     }
 
-    public Long getParticipationId() {
-        return participationId;
+    public String getUsername() {
+        return username;
+    }
+
+    public Long getChallengeId() {
+        return challengeId;
     }
 
     public Long getSubmitId() {
