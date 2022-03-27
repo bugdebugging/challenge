@@ -2,6 +2,7 @@ package ac.kr.kw.judge.challenge.service;
 
 import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
+import ac.kr.kw.judge.challenge.service.helper.ChallengeFindHelper;
 import ac.kr.kw.judge.challenge.service.port.in.ParticipationRegisterService;
 import ac.kr.kw.judge.challenge.service.command.ParticipationRegisterCommand;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +19,14 @@ public class ParticipationRegisterServiceImpl implements ParticipationRegisterSe
 
     @Override
     public void participateInChallenge(Long challengeId, ParticipationRegisterCommand participationRegisterCommand) {
-        Challenge challenge = ChallengeFindHelper.findChallengeById(challengeId, challengeRepository);
+        Challenge challenge = ChallengeFindHelper.findById(challengeId, challengeRepository);
         challenge.participateInChallenge(participationRegisterCommand.getUserId()
                 , participationRegisterCommand.getName(), LocalDateTime.now());
     }
 
     @Override
-    public void cancelParticipation(Long challengeId, Long participationId) {
-        Challenge challenge = ChallengeFindHelper.findChallengeById(challengeId, challengeRepository);
-        challenge.cancelParticipate(participationId);
+    public void cancelParticipation(Long challengeId, String username) {
+        Challenge challenge = ChallengeFindHelper.findById(challengeId, challengeRepository);
+        challenge.cancelParticipate(username);
     }
 }

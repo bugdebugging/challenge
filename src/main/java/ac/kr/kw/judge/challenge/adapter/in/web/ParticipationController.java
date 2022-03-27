@@ -5,6 +5,7 @@ import ac.kr.kw.judge.challenge.service.command.ParticipationRegisterCommand;
 import ac.kr.kw.judge.challenge.service.port.in.ParticipationRegisterService;
 import ac.kr.kw.judge.commons.api.ApiResult;
 import ac.kr.kw.judge.commons.api.ApiUtils;
+import ac.kr.kw.judge.commons.auth.AuthorizedUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,10 @@ public class ParticipationController {
     }
 
     @ApiOperation(value = "대회 참여 취소", notes = "대회에 참여 취소")
-    @DeleteMapping("/api/challenges/{challengeId}/participations/{participationId}")
+    @DeleteMapping("/api/challenges/{challengeId}/participations")
     public ApiResult cancelParticipationInChallenge(@PathVariable("challengeId") Long challengeId,
-                                                    @PathVariable("participationId") Long participationId) {
-        participationRegisterService.cancelParticipation(challengeId, participationId);
+                                                    @AuthorizedUser String username) {
+        participationRegisterService.cancelParticipation(challengeId, username);
         return ApiUtils.simpleMessage("You have been successfully canceled.");
     }
 }
