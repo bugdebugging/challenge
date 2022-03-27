@@ -1,6 +1,7 @@
 package ac.kr.kw.judge.challenge.adapter.out.web;
 
 import ac.kr.kw.judge.challenge.dto.in.ProblemDto;
+import ac.kr.kw.judge.challenge.service.port.out.ProblemClient;
 import ac.kr.kw.judge.commons.api.ApiResult;
 import ac.kr.kw.judge.commons.exception.ProblemClientException;
 import com.fasterxml.jackson.core.JsonProcessingException;

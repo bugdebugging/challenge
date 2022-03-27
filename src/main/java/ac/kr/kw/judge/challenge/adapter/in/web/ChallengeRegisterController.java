@@ -1,6 +1,6 @@
 package ac.kr.kw.judge.challenge.adapter.in.web;
 
-import ac.kr.kw.judge.challenge.adapter.out.web.ProblemClient;
+import ac.kr.kw.judge.challenge.service.port.out.ProblemClient;
 import ac.kr.kw.judge.challenge.dto.in.ChallengeRegisterDto;
 import ac.kr.kw.judge.challenge.service.command.ChallengeRegisterCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;

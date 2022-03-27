@@ -1,4 +1,4 @@
-package ac.kr.kw.judge.challenge.adapter.out.web;
+package ac.kr.kw.judge.challenge.service.port.out;
 
 import ac.kr.kw.judge.challenge.dto.in.ProblemDto;
 
