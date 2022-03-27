@@ -4,16 +4,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProblemOpenTimeChanged {
-    private List<Long> problemIds;
+    private List<Long> ids;
     private LocalDateTime openTime;
 
-    public ProblemOpenTimeChanged(List<Long> problemIds, LocalDateTime openTime) {
-        this.problemIds = problemIds;
+    public ProblemOpenTimeChanged(List<Long> ids, LocalDateTime openTime) {
+        this.ids = ids;
         this.openTime = openTime;
     }
 
-    public List<Long> getProblemIds() {
-        return problemIds;
+    public List<Long> getIds() {
+        return ids;
     }
 
     public LocalDateTime getOpenTime() {
