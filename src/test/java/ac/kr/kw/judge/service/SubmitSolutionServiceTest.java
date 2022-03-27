@@ -73,13 +73,12 @@ public class SubmitSolutionServiceTest {
         Challenge challenge = new Challenge(name, authors, questions, alreadyFinishedChallengeDateTime);
         challenge.participateInChallenge(participationId, "ReReRERE", LocalDateTime.now().minusHours(7));
         challenge.participateInChallenge(5L, "Alpha", LocalDateTime.now().minusHours(6));
-        when(challengeRepository.findById(1L)).thenReturn(Optional.of(challenge));
+        when(challengeRepository.findChallengeWithParticipation(1L)).thenReturn(Optional.of(challenge));
 
         final Long problemId = 2L;
         final ProgrammingLanguage language = ProgrammingLanguage.CPP;
         final String code = "source code~";
-        SolutionSubmitCommand command = new SolutionSubmitCommand(participationId,
-                problemId, language, code, "ReReRERE");
+        SolutionSubmitCommand command = new SolutionSubmitCommand(problemId, language, code, "ReReRERE");
 
         assertThrows(IllegalStateException.class, () -> {
             submitSolutionService.submitSolution(challengeId, command);
@@ -93,13 +92,12 @@ public class SubmitSolutionServiceTest {
         Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
         challenge.participateInChallenge(participationId, "ReReRERE", LocalDateTime.now().minusHours(7));
         challenge.participateInChallenge(5L, "Alpha", LocalDateTime.now().minusHours(6));
-        when(challengeRepository.findById(1L)).thenReturn(Optional.of(challenge));
+        when(challengeRepository.findChallengeWithParticipation(1L)).thenReturn(Optional.of(challenge));
 
         final Long problemIdNotExistInChallenge = 888L;
         final ProgrammingLanguage language = ProgrammingLanguage.CPP;
         final String code = "source code!!";
-        SolutionSubmitCommand command = new SolutionSubmitCommand(participationId,
-                problemIdNotExistInChallenge, language, code, "ReReRERE");
+        SolutionSubmitCommand command = new SolutionSubmitCommand(problemIdNotExistInChallenge, language, code, "ReReRERE");
 
         assertThrows(IllegalArgumentException.class, () -> {
             submitSolutionService.submitSolution(challengeId, command);
@@ -116,22 +114,27 @@ public class SubmitSolutionServiceTest {
                 , Submit.withId(5L, 3L, null, ProgrammingLanguage.C, "successSubmits3")
                 , Submit.withId(6L, 3L, null, ProgrammingLanguage.C, "PENDING Submit"));
 
+        Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
+
         Participation participation = Participation.withSubmits(1L, "tourist", null, submits);
-        when(participationRepository.findById(1L)).thenReturn(Optional.of(participation));
+
+        when(challengeRepository.findById(1L)).thenReturn(Optional.of(challenge));
+        when(participationRepository.findParticipationByChallengeAndName(challenge, "tourist"))
+                .thenReturn(Optional.of(participation));
 
         List<CompleteGradingSubmitCommand> successSubmits = List.of(
-                new CompleteGradingSubmitCommand(2L, SubmitStatus.SUCCESS, ChallengeScore.of(700))
-                , new CompleteGradingSubmitCommand(3L, SubmitStatus.SUCCESS, ChallengeScore.of(1000))
-                , new CompleteGradingSubmitCommand(5L, SubmitStatus.SUCCESS, ChallengeScore.of(900)));
+                new CompleteGradingSubmitCommand(2L, 1L, "tourist", SubmitStatus.SUCCESS, ChallengeScore.of(700))
+                , new CompleteGradingSubmitCommand(3L, 1L, "tourist", SubmitStatus.SUCCESS, ChallengeScore.of(1000))
+                , new CompleteGradingSubmitCommand(5L, 1L, "tourist", SubmitStatus.SUCCESS, ChallengeScore.of(900)));
 
         List<CompleteGradingSubmitCommand> failedSubmits = List.of(
-                new CompleteGradingSubmitCommand(1L, SubmitStatus.FAILED, ChallengeScore.of(0))
-                , new CompleteGradingSubmitCommand(4L, SubmitStatus.FAILED, ChallengeScore.of(0)));
+                new CompleteGradingSubmitCommand(1L, 1L, "tourist", SubmitStatus.FAILED, ChallengeScore.of(0))
+                , new CompleteGradingSubmitCommand(4L, 1L, "tourist", SubmitStatus.FAILED, ChallengeScore.of(0)));
 
         successSubmits.stream()
-                .forEach(successSubmit -> submitSolutionService.completeGradingOfSubmit(1L, successSubmit));
+                .forEach(successSubmit -> submitSolutionService.completeGradingOfSubmit("tourist", successSubmit));
         failedSubmits.stream()
-                .forEach(failedSubmit -> submitSolutionService.completeGradingOfSubmit(1L, failedSubmit));
+                .forEach(failedSubmit -> submitSolutionService.completeGradingOfSubmit("tourist", failedSubmit));
 
         ChallengeScore expectScore = ChallengeScore.of(2600);
         assertEquals(expectScore, participation.getChallengeScore(), "참여자의 점수는 각 문제별 최대 득점의 합.");
