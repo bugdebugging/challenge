@@ -5,6 +5,7 @@ import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.domain.Question;
 import ac.kr.kw.judge.challenge.domain.event.ProblemOpenTimeChanged;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
+import ac.kr.kw.judge.challenge.service.helper.ChallengeFindHelper;
 import ac.kr.kw.judge.challenge.service.port.in.ChallengeModifyService;
 import ac.kr.kw.judge.challenge.service.command.ChallengeInfoModifyCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
@@ -25,7 +26,7 @@ public class ChallengeModifyServiceImpl implements ChallengeModifyService {
 
     @Override
     public void changeQuestions(Long challengeId, List<QuestionRegisterCommand> questionRegisterCommands) {
-        Challenge challenge = ChallengeFindHelper.findChallengeById(challengeId, challengeRepository);
+        Challenge challenge = ChallengeFindHelper.findById(challengeId, challengeRepository);
         List<Question> questions = questionRegisterCommands.stream()
                 .map(question -> question.toEntity()).collect(Collectors.toList());
         challenge.changeQuestions(questions);
@@ -33,13 +34,13 @@ public class ChallengeModifyServiceImpl implements ChallengeModifyService {
 
     @Override
     public void changeAuthors(Long challengeId, List<Author> authors) {
-        Challenge challenge = ChallengeFindHelper.findChallengeById(challengeId, challengeRepository);
+        Challenge challenge = ChallengeFindHelper.findById(challengeId, challengeRepository);
         challenge.changeAuthors(authors);
     }
 
     @Override
     public void changeChallengeInfo(Long challengeId, ChallengeInfoModifyCommand challengeInfoModifyCommand) {
-        Challenge challenge = ChallengeFindHelper.findChallengeById(challengeId, challengeRepository);
+        Challenge challenge = ChallengeFindHelper.findById(challengeId, challengeRepository);
         challenge.changeChallengeInfo(challengeInfoModifyCommand.getName(), challengeInfoModifyCommand.getChallengeDateTime());
 
         ProblemOpenTimeChanged problemOpenTimeChanged = new ProblemOpenTimeChanged(

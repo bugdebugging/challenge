@@ -7,6 +7,7 @@ import ac.kr.kw.judge.challenge.dto.out.QuestionDto;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
 import ac.kr.kw.judge.challenge.repository.ParticipationRepository;
 import ac.kr.kw.judge.challenge.repository.QuestionRepository;
+import ac.kr.kw.judge.challenge.service.helper.ChallengeFindHelper;
 import ac.kr.kw.judge.challenge.service.port.in.ChallengeSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -34,10 +35,7 @@ public class ChallengeSearchServiceImpl implements ChallengeSearchService {
 
     @Override
     public List<QuestionDto> findQuestionsOfChallenge(Long challengeId) {
-        Challenge challenge = challengeRepository.findById(challengeId)
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("해당 id의 challenge가 존재하지 않습니다.");
-                });
+        Challenge challenge = ChallengeFindHelper.findById(challengeId,challengeRepository);
         return questionRepository.findQuestionByChallenge(challenge)
                 .stream().map(question -> QuestionDto.fromEntity(question))
                 .collect(Collectors.toList());
@@ -45,11 +43,7 @@ public class ChallengeSearchServiceImpl implements ChallengeSearchService {
 
     @Override
     public List<ParticipationDto> findParticipationsOfChallenge(Long challengeId, int page, int limit) {
-        Challenge challenge = challengeRepository.findById(challengeId)
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("해당 id의 challenge가 존재하지 않습니다.");
-                });
-
+        Challenge challenge = ChallengeFindHelper.findById(challengeId,challengeRepository);
         return participationRepository.findParticipationByChallenge(challenge,PageRequest.of(page,limit))
                 .stream().map(participation -> ParticipationDto.fromEntity(participation))
                 .collect(Collectors.toList());

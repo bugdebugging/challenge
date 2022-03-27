@@ -9,6 +9,8 @@ import ac.kr.kw.judge.challenge.repository.ParticipationRepository;
 import ac.kr.kw.judge.challenge.repository.SubmitRepository;
 import ac.kr.kw.judge.challenge.service.command.CompleteGradingSubmitCommand;
 import ac.kr.kw.judge.challenge.service.command.SolutionSubmitCommand;
+import ac.kr.kw.judge.challenge.service.helper.ChallengeFindHelper;
+import ac.kr.kw.judge.challenge.service.helper.ParticipationFindHelper;
 import ac.kr.kw.judge.challenge.service.port.in.SubmitSolutionService;
 import ac.kr.kw.judge.challenge.service.port.out.EventSender;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +28,7 @@ public class SubmitSolutionServiceImpl implements SubmitSolutionService {
 
     @Override
     public void submitSolution(Long challengeId, SolutionSubmitCommand solutionSubmitCommand) {
-        Challenge challenge = challengeRepository.findChallengeWithParticipation(challengeId)
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("해당 id의 대회가 존재하지 않습니다.");
-                });
+        Challenge challenge = ChallengeFindHelper.findById(challengeId,challengeRepository);
         Submit submit = challenge.submitSolutionOfQuestion(solutionSubmitCommand.getUsername()
                 , solutionSubmitCommand.getProblemId()
                 , solutionSubmitCommand.getProgrammingLanguage()
@@ -46,15 +45,9 @@ public class SubmitSolutionServiceImpl implements SubmitSolutionService {
 
     @Override
     public void completeGradingOfSubmit(String username, CompleteGradingSubmitCommand completeGradingSubmitCommand) {
-        Challenge challenge = challengeRepository.findById(completeGradingSubmitCommand.getChallengeId())
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("해당 id의 대회가 존재하지않습니다.");
-                });
+        Challenge challenge = ChallengeFindHelper.findById(completeGradingSubmitCommand.getChallengeId(), challengeRepository);
 
-        Participation participation = participationRepository.findParticipationByChallengeAndName(challenge, completeGradingSubmitCommand.getUsername())
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("해당 참여자가 존재하지 않습니다.");
-                });
+        Participation participation = ParticipationFindHelper.findByChallengeAndName(challenge, completeGradingSubmitCommand.getUsername(), participationRepository);
         participation.completeGradingOfSubmit(completeGradingSubmitCommand.getSubmitId()
                 , completeGradingSubmitCommand.getStatus()
                 , completeGradingSubmitCommand.getChallengeScore());
