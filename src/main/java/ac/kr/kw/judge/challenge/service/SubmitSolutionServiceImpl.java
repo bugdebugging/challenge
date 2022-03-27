@@ -11,6 +11,7 @@ import ac.kr.kw.judge.challenge.service.port.in.SubmitSolutionService;
 import ac.kr.kw.judge.challenge.service.command.CompleteGradingSubmitCommand;
 import ac.kr.kw.judge.challenge.service.command.SolutionSubmitCommand;
 import ac.kr.kw.judge.challenge.service.port.out.EventSender;
+import ac.kr.kw.judge.commons.exception.UnAuthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,13 @@ public class SubmitSolutionServiceImpl implements SubmitSolutionService {
     @Override
     public void submitSolution(Long challengeId, SolutionSubmitCommand solutionSubmitCommand) {
         Challenge challenge = ChallengeFindHelper.findChallengeById(challengeId, challengeRepository);
+        Participation participation = participationRepository.findParticipationByChallengeAndUserId(challenge, solutionSubmitCommand.getParticipationId())
+                .orElseThrow(() -> {
+                    throw new IllegalArgumentException("해당 사용자가 없습니다.");
+                });
+        if (!participation.getName().equals(solutionSubmitCommand.getUsername())) {
+            throw new UnAuthorizedException("본인의 솔루션만 제출할 수 있습니다.");
+        }
         Submit submit = challenge.submitSolutionOfQuestion(solutionSubmitCommand.getParticipationId()
                 , solutionSubmitCommand.getProblemId()
                 , solutionSubmitCommand.getProgrammingLanguage()

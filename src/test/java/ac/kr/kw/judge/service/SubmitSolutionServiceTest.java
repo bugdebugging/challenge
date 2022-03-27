@@ -79,7 +79,7 @@ public class SubmitSolutionServiceTest {
         final ProgrammingLanguage language = ProgrammingLanguage.CPP;
         final String code = "source code~";
         SolutionSubmitCommand command = new SolutionSubmitCommand(participationId,
-                problemId, language, code);
+                problemId, language, code, "ReReRERE");
 
         assertThrows(IllegalStateException.class, () -> {
             submitSolutionService.submitSolution(challengeId, command);
@@ -99,7 +99,7 @@ public class SubmitSolutionServiceTest {
         final ProgrammingLanguage language = ProgrammingLanguage.CPP;
         final String code = "source code!!";
         SolutionSubmitCommand command = new SolutionSubmitCommand(participationId,
-                problemIdNotExistInChallenge, language, code);
+                problemIdNotExistInChallenge, language, code, "ReReRERE");
 
         assertThrows(IllegalArgumentException.class, () -> {
             submitSolutionService.submitSolution(challengeId, command);

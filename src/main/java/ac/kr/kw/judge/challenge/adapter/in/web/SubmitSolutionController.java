@@ -6,6 +6,7 @@ import ac.kr.kw.judge.challenge.service.command.SolutionSubmitCommand;
 import ac.kr.kw.judge.challenge.service.port.in.SubmitSolutionService;
 import ac.kr.kw.judge.commons.api.ApiResult;
 import ac.kr.kw.judge.commons.api.ApiUtils;
+import ac.kr.kw.judge.commons.auth.AuthorizedUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +21,13 @@ public class SubmitSolutionController {
     @PostMapping("/api/challenges/{challengeId}/participations/{participationId}/submits")
     public ApiResult submitSolution(@PathVariable("challengeId") Long challengeId,
                                     @PathVariable("participationId") Long participationId,
-                                    @RequestBody SubmitRequestDto submitRequestDto) {
-
+                                    @RequestBody SubmitRequestDto submitRequestDto,
+                                    @AuthorizedUser String username) {
         SolutionSubmitCommand solutionSubmitCommand = new SolutionSubmitCommand(participationId
                 , submitRequestDto.getProblemId()
                 , ProgrammingLanguage.ofSupportedLanguage(submitRequestDto.getProgrammingLanguage())
-                , submitRequestDto.getSourceCode());
+                , submitRequestDto.getSourceCode()
+                , username);
         submitSolutionService.submitSolution(challengeId, solutionSubmitCommand);
         return ApiUtils.simpleMessage("successfully submit your code.");
     }

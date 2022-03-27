@@ -10,17 +10,20 @@ public class SolutionSubmitCommand {
     private Long problemId;
     private ProgrammingLanguage programmingLanguage;
     private String sourceCode;
+    private String username;
 
-    public SolutionSubmitCommand(Long participationId, Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
+    public SolutionSubmitCommand(Long participationId, Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode, String username) {
         checkArgument(participationId != null, "참여자 id는 필수입니다.");
         checkArgument(problemId != null, "문제 id는 필수입니다.");
         checkArgument(programmingLanguage != null, "제출 언어는 필수입니다.");
         checkArgument(isNotEmpty(sourceCode), "소스코드는 빈문자열일 수 없습니다.");
+        checkArgument(isNotEmpty(username), "참여자 이름은 빈문자열일 수 없습니다.");
 
         this.participationId = participationId;
         this.problemId = problemId;
         this.programmingLanguage = programmingLanguage;
         this.sourceCode = sourceCode;
+        this.username = username;
     }
 
     public Long getParticipationId() {
@@ -37,5 +40,9 @@ public class SolutionSubmitCommand {
 
     public String getSourceCode() {
         return sourceCode;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
