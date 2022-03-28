@@ -40,18 +40,17 @@ public class ChallengeRegisterServiceTest {
                 List.of(new QuestionRegisterCommand(1L, "열혈강호1"),
                         new QuestionRegisterCommand(2L, "열혈강호2"));
 
-        final List<Author> authors = List.of(Author.of(1L, "tourist", 3809));
         final ChallengeDateTime challengeDateTime = ChallengeDateTime.of(LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(5));
 
         final List<Question> questions = questionRegisterCommands.stream().map(questionRegisterCommand -> Question.of(questionRegisterCommand.getProblemId(),
                 questionRegisterCommand.getTitle()))
                 .collect(Collectors.toList());
 
-        Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
+        Challenge challenge = new Challenge(name, questions, challengeDateTime, Author.of("tourist"));
         when(challengeRepository.save(any(Challenge.class))).thenReturn(challenge);
 
         ChallengeRegisterCommand challengeRegisterCommand
-                = new ChallengeRegisterCommand(authors, questionRegisterCommands, name, challengeDateTime);
+                = new ChallengeRegisterCommand(questionRegisterCommands, name, challengeDateTime, "tourist");
 
         challengeRegisterService.registerChallenge(challengeRegisterCommand);
         verify(challengeRepository, atLeastOnce()).save(any(Challenge.class));
@@ -65,7 +64,6 @@ public class ChallengeRegisterServiceTest {
                 List.of(new QuestionRegisterCommand(1L, "열혈강호1"),
                         new QuestionRegisterCommand(2L, "열혈강호2"));
 
-        final List<Author> authors = List.of(Author.of(1L, "tourist", 3809));
         final ChallengeDateTime startTimeIsPastThanNow = ChallengeDateTime.of(LocalDateTime.now().minusHours(3),
                 LocalDateTime.now().plusHours(3));
 
@@ -73,12 +71,12 @@ public class ChallengeRegisterServiceTest {
                 questionRegisterCommand.getTitle()))
                 .collect(Collectors.toList());
 
-        Challenge challenge = new Challenge(name, authors, questions, startTimeIsPastThanNow);
+        Challenge challenge = new Challenge(name, questions, startTimeIsPastThanNow,Author.of("tourist"));
         when(challengeRepository.save(any(Challenge.class))).thenReturn(challenge);
 
         assertThrows(IllegalArgumentException.class, () -> {
             ChallengeRegisterCommand challengeRegisterCommand
-                    = new ChallengeRegisterCommand(authors, questionRegisterCommands, name, startTimeIsPastThanNow);
+                    = new ChallengeRegisterCommand(questionRegisterCommands, name, startTimeIsPastThanNow,"tourist");
             challengeRegisterService.registerChallenge(challengeRegisterCommand);
         }, "대회 시작 시간은 현재 시각보다 미래여야한다.");
     }

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Embeddable
 public class Author {
-    @Column
+    @Column(name = "author")
     private String name;
 
     protected Author() {

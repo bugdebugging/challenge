@@ -1,18 +1,18 @@
 -- challenges
-insert into challenges (name, start_time, end_time, created_at, updated_at)
-values ('round511 Div2', '2022-02-05 12:00:00', '2022-02-05 15:00:00', now(), now());
+insert into challenges (name, start_time, end_time, created_at, updated_at, author)
+values ('round511 Div2', '2022-02-05 12:00:00', '2022-02-05 15:00:00', now(), now(),'umnik');
 
-insert into challenges (name, start_time, end_time, created_at, updated_at)
-values ('round512 Div3', '2022-02-01 18:00:00', '2022-02-01 20:00:00', now(), now());
+insert into challenges (name, start_time, end_time, created_at, updated_at, author)
+values ('round512 Div3', '2022-02-01 18:00:00', '2022-02-01 20:00:00', now(), now(),'vovuh');
 
-insert into challenges (name, start_time, end_time, created_at, updated_at)
-values ('round513 Div1', '2022-01-18 16:00:00', '2022-01-18 18:00:00', now(), now());
+insert into challenges (name, start_time, end_time, created_at, updated_at, author)
+values ('round513 Div1', '2022-01-18 16:00:00', '2022-01-18 18:00:00', now(), now(),'tourist');
 
-insert into challenges (name, start_time, end_time, created_at, updated_at)
-values ('Educational Round', '2022-03-01 12:00:00', '2022-03-01 14:00:00', now(), now());
+insert into challenges (name, start_time, end_time, created_at, updated_at, author)
+values ('Educational Round', '2022-03-01 12:00:00', '2022-03-01 14:00:00', now(), now(),'ericcho');
 
-insert into challenges (name, start_time, end_time, created_at, updated_at)
-values ('Global Round', '2022-03-02 12:00:00', '2022-03-02 14:00:00', now(), now());
+insert into challenges (name, start_time, end_time, created_at, updated_at, author)
+values ('Global Round', '2022-03-02 12:00:00', '2022-03-02 14:00:00', now(), now(),'koosaga');
 
 --authors
 --questions
@@ -61,25 +61,3 @@ insert into participations(name, challenge_id)
 values ('rie', 5L);
 insert into participations(name, challenge_id)
 values ('isvara', 5L);
-
---author
--- 1
-insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (1L, 2000, 'tester1', 100L);
-insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (1L, 2500, 'tester2', 101L);
-
--- 2
-insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (2L, 2500, 'tester2', 101L);
-
--- 4
-insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (4L, 2150, 'vovuh', 400L);
-insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (4L, 1846, 'kisa', 401L);
-insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (4L, 2200, 'koru', 402L);
-
-insert into challenge_authors(challenge_id, accumulate_score, name, user_id)
-values (5L, 2200, 'koru', 402L);

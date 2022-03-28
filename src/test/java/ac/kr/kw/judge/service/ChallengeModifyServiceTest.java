@@ -33,8 +33,7 @@ public class ChallengeModifyServiceTest {
 
     final Long challengeId = 1L;
     final String name = "new year 2022 contest.";
-    final List<Author> authors = List.of(Author.of(1L, "tourist", 2800),
-            Author.of(2L, "koosaga", 2700));
+    final Author author = Author.of("tourist");
     final List<QuestionRegisterCommand> questionRegisterCommands = List.of(new QuestionRegisterCommand(1L, "dp1"),
             new QuestionRegisterCommand(2L, "dp2"));
     final ChallengeDateTime challengeDateTime = ChallengeDateTime.of(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(5));
@@ -43,10 +42,9 @@ public class ChallengeModifyServiceTest {
     @Test
     @DisplayName("대회의 문제 수정.")
     void 대회문제_수정_성공() {
-        Challenge challenge = new Challenge(name, authors,
-                questionRegisterCommands.stream()
-                        .map(question -> question.toEntity()).collect(Collectors.toList()),
-                challengeDateTime);
+        Challenge challenge = new Challenge(name,
+                questionRegisterCommands.stream().map(question -> question.toEntity()).collect(Collectors.toList()),
+                challengeDateTime, author);
 
         when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
 
@@ -66,64 +64,13 @@ public class ChallengeModifyServiceTest {
         }
     }
 
-    //중복된 문제로 수정
-
-    @Test
-    @DisplayName("대회의 출제자 수정.")
-    void 대회출제자_수정_성공() {
-        Challenge challenge = new Challenge(name, authors,
-                questionRegisterCommands.stream()
-                        .map(question -> question.toEntity()).collect(Collectors.toList()),
-                challengeDateTime);
-
-        when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
-
-        final List<Author> willBeChallengeAuthors = List.of(Author.of(3L, "cubelover", 2500),
-                Author.of(4L, "monogun", 2300));
-
-        //when
-        challengeModifyService.changeAuthors(challengeId, willBeChallengeAuthors);
-
-        //then
-        for (int i = 0; i < challenge.getAuthors().size(); i++) {
-            Author real = willBeChallengeAuthors.get(i);
-            Author expect = challenge.getAuthors().get(i);
-
-            assertEquals(real.getUserId(), expect.getUserId(), "새로운 저자 user id");
-            assertEquals(real.getName(), expect.getName(), "새로운 문제 제목으로 수정");
-            assertEquals(real.getAccumulateScore(), expect.getAccumulateScore(), "새로운 문제 제목으로 수정");
-        }
-    }
-
-    @Test
-    @DisplayName("중복된 출제자로 대회 수정.")
-    void 중복된출제자로_수정_실패() {
-        Challenge challenge = new Challenge(name, authors,
-                questionRegisterCommands.stream()
-                        .map(question -> question.toEntity()).collect(Collectors.toList()),
-                challengeDateTime);
-
-        when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
-
-        final List<Author> sameAuthors = List.of(Author.of(3L, "cubelover", 2500),
-                Author.of(3L, "cubelover", 2500));
-
-        //when
-        assertThrows(IllegalArgumentException.class, () -> {
-            challengeModifyService.changeAuthors(challengeId, sameAuthors);
-        }, "중복된 출제자로 수정할 수 없다.");
-    }
-
-    @Test
     @DisplayName("대회 정보 수정")
     void 대회정보_수정_성공() {
-        Challenge challenge = new Challenge(name, authors,
-                questionRegisterCommands.stream()
-                        .map(question -> question.toEntity()).collect(Collectors.toList()),
-                challengeDateTime);
+        Challenge challenge = new Challenge(name,
+                questionRegisterCommands.stream().map(question -> question.toEntity()).collect(Collectors.toList()),
+                challengeDateTime, author);
 
         when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
-
 
         final String willBeChallengeName = "ICPC World Final";
         final ChallengeDateTime willBeChallengeDate = ChallengeDateTime.of(LocalDateTime.now().plusHours(5),

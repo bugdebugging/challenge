@@ -41,15 +41,6 @@ public class ChallengeModifyController {
         return ApiUtils.simpleMessage("You have successfully changed the questions.");
     }
 
-    @ApiOperation(value = "출제진 수정", notes = "대회의 출제진 수정")
-    @PutMapping("/api/challenges/{challengeId}/authors")
-    public ApiResult modifyChallengeAuthors(@PathVariable("challengeId") Long challengeId,
-                                            @RequestBody AuthorsModifyWrapper authorsModifyWrapper,
-                                            @AuthorizedUser String username) {
-        challengeModifyService.changeAuthors(challengeId, authorsModifyWrapper.getAuthors());
-        return ApiUtils.simpleMessage("You have successfully changed the authors.");
-    }
-
     @ApiOperation(value = "대회 정보 수정", notes = "대회 정보 수정")
     @PutMapping("/api/challenges/{challengeId}/info")
     public ApiResult modifyChallengeInfo(@PathVariable("challengeId") Long challengeId,

@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS challenges;
 create table challenges
 (
     id         bigint       NOT NULL AUTO_INCREMENT,
+    author     varchar(64)  NOT NULL,
     end_time   timestamp    NOT NULL,
     start_time timestamp    NOT NULL,
     created_at timestamp    NOT NULL,
@@ -14,15 +15,6 @@ create table challenges
     updated_at timestamp    NOT NULL,
     primary key (id),
     INDEX (start_time)
-);
-
-create table challenge_authors
-(
-    challenge_id     bigint not null,
-    accumulate_score integer,
-    name             varchar(255),
-    user_id          bigint,
-    FOREIGN KEY (challenge_id) REFERENCES challenges (id)
 );
 
 create table participations
@@ -50,14 +42,14 @@ create table questions
 
 create table submits
 (
-    id                   bigint       NOT NULL AUTO_INCREMENT,
-    problem_id           bigint       NOT NULL,
-    programming_language varchar(255) NOT NULL,
-    score                integer      NOT NULL default 0,
+    id                   bigint        NOT NULL AUTO_INCREMENT,
+    problem_id           bigint        NOT NULL,
+    programming_language varchar(255)  NOT NULL,
+    score                integer       NOT NULL default 0,
     source_code          varchar(2048) NOT NULL,
-    submit_status        integer      NOT NULL,
-    submitted_at         timestamp    NOT NULL,
-    participation_id     bigint       NOT NULL,
+    submit_status        integer       NOT NULL,
+    submitted_at         timestamp     NOT NULL,
+    participation_id     bigint        NOT NULL,
     primary key (id),
     foreign key (participation_id) REFERENCES participations (id)
 );

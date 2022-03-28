@@ -29,8 +29,7 @@ public class ParticipationRegisterServiceTest {
 
     final Long challengeId = 1L;
     final String name = "new year 2022 contest.";
-    final List<Author> authors = List.of(Author.of(1L, "tourist", 2800),
-            Author.of(2L, "koosaga", 2700));
+    final Author author = Author.of("tourist");
     final List<QuestionRegisterCommand> questionRegisterCommands = List.of(new QuestionRegisterCommand(1L, "dp1"),
             new QuestionRegisterCommand(2L, "dp2"));
     final ChallengeDateTime challengeDateTime = ChallengeDateTime.of(LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(5));
@@ -41,7 +40,7 @@ public class ParticipationRegisterServiceTest {
     @Test
     @DisplayName("대회에 참여")
     void 대회참여_성공() {
-        Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
+        Challenge challenge = new Challenge(name, questions, challengeDateTime, author);
         when(challengeRepository.findChallengeWithParticipation(challengeId)).thenReturn(Optional.of(challenge));
 
         final String name = "tourist";
@@ -57,7 +56,7 @@ public class ParticipationRegisterServiceTest {
     @Test
     @DisplayName("대회에 중복 참여")
     void 대회_중복참여_실패() {
-        Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
+        Challenge challenge = new Challenge(name, questions, challengeDateTime, author);
         when(challengeRepository.findChallengeWithParticipation(challengeId)).thenReturn(Optional.of(challenge));
 
         final String name = "tourist";
@@ -73,7 +72,7 @@ public class ParticipationRegisterServiceTest {
     void 대회시작후_참여_실패() {
         ChallengeDateTime onProgressDateTime = ChallengeDateTime.of(LocalDateTime.now().minusHours(1)
                 , LocalDateTime.now().plusHours(1));
-        Challenge challenge = new Challenge(name, authors, questions, onProgressDateTime);
+        Challenge challenge = new Challenge(name, questions, onProgressDateTime, author);
         when(challengeRepository.findChallengeWithParticipation(challengeId)).thenReturn(Optional.of(challenge));
 
         assertThrows(IllegalStateException.class, () -> {

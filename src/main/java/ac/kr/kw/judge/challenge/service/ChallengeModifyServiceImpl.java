@@ -1,14 +1,13 @@
 package ac.kr.kw.judge.challenge.service;
 
-import ac.kr.kw.judge.challenge.domain.Author;
 import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.domain.Question;
 import ac.kr.kw.judge.challenge.domain.event.ProblemOpenTimeChanged;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
-import ac.kr.kw.judge.challenge.service.helper.ChallengeFindHelper;
-import ac.kr.kw.judge.challenge.service.port.in.ChallengeModifyService;
 import ac.kr.kw.judge.challenge.service.command.ChallengeInfoModifyCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
+import ac.kr.kw.judge.challenge.service.helper.ChallengeFindHelper;
+import ac.kr.kw.judge.challenge.service.port.in.ChallengeModifyService;
 import ac.kr.kw.judge.challenge.service.port.out.EventSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,12 +29,6 @@ public class ChallengeModifyServiceImpl implements ChallengeModifyService {
         List<Question> questions = questionRegisterCommands.stream()
                 .map(question -> question.toEntity()).collect(Collectors.toList());
         challenge.changeQuestions(questions);
-    }
-
-    @Override
-    public void changeAuthors(Long challengeId, List<Author> authors) {
-        Challenge challenge = ChallengeFindHelper.findById(challengeId, challengeRepository);
-        challenge.changeAuthors(authors);
     }
 
     @Override

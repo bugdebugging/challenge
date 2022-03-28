@@ -33,10 +33,9 @@ public class SubmitSolutionServiceTest {
     @MockBean
     ParticipationRepository participationRepository;
 
+    final Author author = Author.of("tourist");
     final Long challengeId = 1L;
     final String name = "new year 2022 contest.";
-    final List<Author> authors = List.of(Author.of(1L, "tourist", 2800),
-            Author.of(2L, "koosaga", 2700));
     final List<QuestionRegisterCommand> questionRegisterCommands = List.of(new QuestionRegisterCommand(1L, "dp1"),
             new QuestionRegisterCommand(2L, "dp2"));
     final List<Question> questions = questionRegisterCommands.stream().map(questionRegisterCommand -> Question.of(questionRegisterCommand.getProblemId(),
@@ -69,7 +68,7 @@ public class SubmitSolutionServiceTest {
     void 대회_종료후_제출_실패() {
         ChallengeDateTime alreadyFinishedChallengeDateTime = ChallengeDateTime.of(LocalDateTime.now().minusHours(2),
                 LocalDateTime.now().minusHours(1));
-        Challenge challenge = new Challenge(name, authors, questions, alreadyFinishedChallengeDateTime);
+        Challenge challenge = new Challenge(name, questions, alreadyFinishedChallengeDateTime, author);
         challenge.participateInChallenge("ReReRERE", LocalDateTime.now().minusHours(7));
         challenge.participateInChallenge("Alpha", LocalDateTime.now().minusHours(6));
         when(challengeRepository.findChallengeWithParticipation(1L)).thenReturn(Optional.of(challenge));
@@ -87,7 +86,7 @@ public class SubmitSolutionServiceTest {
     @Test
     @DisplayName("대회문제 아닌 문제 제출")
     void 대회문제_아닌_문제제출_실패() {
-        Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
+        Challenge challenge = new Challenge(name, questions, challengeDateTime, author);
         challenge.participateInChallenge("ReReRERE", LocalDateTime.now().minusHours(7));
         challenge.participateInChallenge("Alpha", LocalDateTime.now().minusHours(6));
         when(challengeRepository.findChallengeWithParticipation(1L)).thenReturn(Optional.of(challenge));
@@ -112,7 +111,7 @@ public class SubmitSolutionServiceTest {
                 , Submit.withId(5L, 3L, null, ProgrammingLanguage.C, "successSubmits3")
                 , Submit.withId(6L, 3L, null, ProgrammingLanguage.C, "PENDING Submit"));
 
-        Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
+        Challenge challenge = new Challenge(name, questions, challengeDateTime, author);
 
         Participation participation = Participation.withSubmits("tourist", null, submits);
 

@@ -1,6 +1,5 @@
 package ac.kr.kw.judge.challenge.adapter.in.web;
 
-import ac.kr.kw.judge.challenge.dto.out.ParticipationDto;
 import ac.kr.kw.judge.challenge.dto.out.SubmitDetailDto;
 import ac.kr.kw.judge.challenge.dto.out.SubmitItemDto;
 import ac.kr.kw.judge.challenge.service.port.in.ParticipationSearchService;
