@@ -1,5 +1,6 @@
 package ac.kr.kw.judge.challenge.service;
 
+import ac.kr.kw.judge.challenge.domain.Author;
 import ac.kr.kw.judge.challenge.domain.Challenge;
 import ac.kr.kw.judge.challenge.domain.Question;
 import ac.kr.kw.judge.challenge.domain.event.ProblemOpenTimeChanged;
@@ -27,10 +28,9 @@ public class ChallengeRegisterServiceImpl implements ChallengeRegisterService {
                 .stream().map(questionRegisterCommand -> Question.of(questionRegisterCommand.getProblemId(),
                         questionRegisterCommand.getTitle()))
                 .collect(Collectors.toList());
+
         Challenge challenge = new Challenge(challengeRegisterCommand.getName(),
-                challengeRegisterCommand.getAuthors(),
-                questions,
-                challengeRegisterCommand.getChallengeDateTime());
+                questions, challengeRegisterCommand.getChallengeDateTime(), Author.of(challengeRegisterCommand.getAuthor()));
 
         ProblemOpenTimeChanged problemOpenTimeChanged = new ProblemOpenTimeChanged(
                 questions.stream().map(question -> question.getProblemId()).collect(Collectors.toList()),

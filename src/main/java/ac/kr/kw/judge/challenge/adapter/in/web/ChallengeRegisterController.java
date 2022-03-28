@@ -7,6 +7,7 @@ import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import ac.kr.kw.judge.challenge.service.port.in.ChallengeRegisterService;
 import ac.kr.kw.judge.commons.api.ApiResult;
 import ac.kr.kw.judge.commons.api.ApiUtils;
+import ac.kr.kw.judge.commons.auth.AuthorizedUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +27,15 @@ public class ChallengeRegisterController {
 
     @ApiOperation(value = "대회 생성", notes = "출제될 문제,출제진과 함께 대회 생성")
     @PostMapping("/api/challenges")
-    public ApiResult registerChallenge(@RequestBody ChallengeRegisterDto challengeRegisterDto) {
+    public ApiResult registerChallenge(@RequestBody ChallengeRegisterDto challengeRegisterDto,
+                                       @AuthorizedUser String username) {
         List<QuestionRegisterCommand> questionRegisterCommands =
                 problemClient.findProblemsContainingIds(challengeRegisterDto.getQuestions())
                         .stream().map(problemDto -> new QuestionRegisterCommand(problemDto.getId(), problemDto.getName()))
                         .collect(Collectors.toList());
 
-        ChallengeRegisterCommand challengeRegisterCommand = new ChallengeRegisterCommand(challengeRegisterDto.getAuthors(),
-                questionRegisterCommands,
-                challengeRegisterDto.getName(),
-                challengeRegisterDto.getChallengeDateTime());
+        ChallengeRegisterCommand challengeRegisterCommand = new ChallengeRegisterCommand(questionRegisterCommands,
+                challengeRegisterDto.getName(), challengeRegisterDto.getChallengeDateTime(), username);
 
         return ApiUtils.success(challengeRegisterService.registerChallenge(challengeRegisterCommand));
     }
