@@ -30,7 +30,6 @@ create table participations
     id           bigint       NOT NULL AUTO_INCREMENT,
     score        integer      NOT NULL default 0,
     name         varchar(255) NOT NULL,
-    user_id      bigint       NOT NULL,
     challenge_id bigint       NOT NULL,
     primary key (id),
     foreign key (challenge_id) REFERENCES challenges (id),

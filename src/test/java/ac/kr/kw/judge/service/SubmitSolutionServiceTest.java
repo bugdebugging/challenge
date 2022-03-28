@@ -51,7 +51,7 @@ public class SubmitSolutionServiceTest {
         final ProgrammingLanguage language = ProgrammingLanguage.CPP;
         final String code = "source code~";
 
-        Participation participation = Participation.of(4L, "ReReRERE", null);
+        Participation participation = Participation.of("ReReRERE", null);
         participation.submitSolutionOfQuestion(problemId, language, code);
 
         Submit resultSubmit = participation.getSubmits().stream()
@@ -67,12 +67,11 @@ public class SubmitSolutionServiceTest {
     @Test
     @DisplayName("대회 종료 후 솔루션 제출")
     void 대회_종료후_제출_실패() {
-        final Long participationId = 4L;
         ChallengeDateTime alreadyFinishedChallengeDateTime = ChallengeDateTime.of(LocalDateTime.now().minusHours(2),
                 LocalDateTime.now().minusHours(1));
         Challenge challenge = new Challenge(name, authors, questions, alreadyFinishedChallengeDateTime);
-        challenge.participateInChallenge(participationId, "ReReRERE", LocalDateTime.now().minusHours(7));
-        challenge.participateInChallenge(5L, "Alpha", LocalDateTime.now().minusHours(6));
+        challenge.participateInChallenge("ReReRERE", LocalDateTime.now().minusHours(7));
+        challenge.participateInChallenge("Alpha", LocalDateTime.now().minusHours(6));
         when(challengeRepository.findChallengeWithParticipation(1L)).thenReturn(Optional.of(challenge));
 
         final Long problemId = 2L;
@@ -88,10 +87,9 @@ public class SubmitSolutionServiceTest {
     @Test
     @DisplayName("대회문제 아닌 문제 제출")
     void 대회문제_아닌_문제제출_실패() {
-        final Long participationId = 4L;
         Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
-        challenge.participateInChallenge(participationId, "ReReRERE", LocalDateTime.now().minusHours(7));
-        challenge.participateInChallenge(5L, "Alpha", LocalDateTime.now().minusHours(6));
+        challenge.participateInChallenge("ReReRERE", LocalDateTime.now().minusHours(7));
+        challenge.participateInChallenge("Alpha", LocalDateTime.now().minusHours(6));
         when(challengeRepository.findChallengeWithParticipation(1L)).thenReturn(Optional.of(challenge));
 
         final Long problemIdNotExistInChallenge = 888L;
@@ -116,7 +114,7 @@ public class SubmitSolutionServiceTest {
 
         Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
 
-        Participation participation = Participation.withSubmits(1L, "tourist", null, submits);
+        Participation participation = Participation.withSubmits("tourist", null, submits);
 
         when(challengeRepository.findById(1L)).thenReturn(Optional.of(challenge));
         when(participationRepository.findParticipationByChallengeAndName(challenge, "tourist"))

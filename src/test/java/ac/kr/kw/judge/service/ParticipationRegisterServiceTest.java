@@ -2,9 +2,8 @@ package ac.kr.kw.judge.service;
 
 import ac.kr.kw.judge.challenge.domain.*;
 import ac.kr.kw.judge.challenge.repository.ChallengeRepository;
-import ac.kr.kw.judge.challenge.service.port.in.ParticipationRegisterService;
-import ac.kr.kw.judge.challenge.service.command.ParticipationRegisterCommand;
 import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
+import ac.kr.kw.judge.challenge.service.port.in.ParticipationRegisterService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +44,13 @@ public class ParticipationRegisterServiceTest {
         Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
         when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
 
-        final Long userId = 1L;
         final String name = "tourist";
-        participationRegisterService.participateInChallenge(challengeId, new ParticipationRegisterCommand(userId, name));
+        participationRegisterService.participateInChallenge(challengeId, name);
 
         Participation expect = challenge.getParticipations().stream()
-                .filter(participation -> participation.getUserId().equals(userId))
+                .filter(participation -> participation.getName().equals(name))
                 .findFirst().get();
 
-        assertEquals(userId, expect.getUserId());
         assertEquals(name, expect.getName());
     }
 
@@ -63,12 +60,11 @@ public class ParticipationRegisterServiceTest {
         Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
         when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
 
-        final Long userId = 1L;
         final String name = "tourist";
-        participationRegisterService.participateInChallenge(challengeId, new ParticipationRegisterCommand(userId, name));
+        participationRegisterService.participateInChallenge(challengeId, name);
 
         assertThrows(IllegalStateException.class, () -> {
-            participationRegisterService.participateInChallenge(challengeId, new ParticipationRegisterCommand(userId, name));
+            participationRegisterService.participateInChallenge(challengeId, name);
         }, "대회에 중복참여할 수는 없다.");
     }
 
@@ -81,7 +77,7 @@ public class ParticipationRegisterServiceTest {
         when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
 
         assertThrows(IllegalStateException.class, () -> {
-            participationRegisterService.participateInChallenge(1L, new ParticipationRegisterCommand(7L, "rein"));
+            participationRegisterService.participateInChallenge(1L, name);
         }, "대회 시작 전에만 참여가 가능하다.");
     }
 }

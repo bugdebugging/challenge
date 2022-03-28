@@ -11,9 +11,6 @@ public class Participation {
     private Long id;
 
     @Column
-    private Long userId;
-
-    @Column
     private String name;
 
     @JoinColumn(name = "challenge_id")
@@ -29,27 +26,25 @@ public class Participation {
     protected Participation() {
     }
 
-    private Participation(Long userId, String name, Challenge challenge) {
-        this.userId = userId;
+    private Participation(String name, Challenge challenge) {
         this.name = name;
         this.challenge = challenge;
         this.challengeScore = ChallengeScore.ZERO;
     }
 
-    private Participation(Long userId, String name, Challenge challenge, List<Submit> submits) {
-        this.userId = userId;
+    private Participation(String name, Challenge challenge, List<Submit> submits) {
         this.name = name;
         this.challenge = challenge;
         this.submits = submits;
         this.challengeScore = ChallengeScore.ZERO;
     }
 
-    public static Participation of(Long userId, String name, Challenge challenge) {
-        return new Participation(userId, name, challenge);
+    public static Participation of(String name, Challenge challenge) {
+        return new Participation(name, challenge);
     }
 
-    public static Participation withSubmits(Long userId, String name, Challenge challenge, List<Submit> submits) {
-        return new Participation(userId, name, challenge, submits);
+    public static Participation withSubmits(String name, Challenge challenge, List<Submit> submits) {
+        return new Participation(name, challenge, submits);
     }
 
     public Submit submitSolutionOfQuestion(Long problemId, ProgrammingLanguage programmingLanguage, String sourceCode) {
@@ -100,9 +95,6 @@ public class Participation {
         return id;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
 
     public String getName() {
         return name;

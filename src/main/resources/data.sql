@@ -40,27 +40,27 @@ values (7L, 'graph', 5L);
 
 --participations
 -- 1
-insert into participations(name, user_id, challenge_id, score)
-values ('tourist', 1L, 1L, 1599);
-insert into participations(name, user_id, challenge_id, score)
-values ('ReReRERE', 2L, 1L, 2700);
-insert into participations(name, user_id, challenge_id, score)
-values ('koosaga', 3L, 1L, 1300);
+insert into participations(name, challenge_id, score)
+values ('tourist', 1L, 1599);
+insert into participations(name, challenge_id, score)
+values ('ReReRERE', 1L, 2700);
+insert into participations(name, challenge_id, score)
+values ('koosaga', 1L, 1300);
 -- 3
-insert into participations(name, user_id, challenge_id)
-values ('tourist', 1L, 3L);
-insert into participations(name, user_id, challenge_id)
-values ('umnik', 4L, 3L);
-insert into participations(name, user_id, challenge_id)
-values ('koosaga', 3L, 3L);
+insert into participations(name, challenge_id)
+values ('tourist', 3L);
+insert into participations(name, challenge_id)
+values ('umnik', 3L);
+insert into participations(name, challenge_id)
+values ('koosaga', 3L);
 -- 4
-insert into participations(name, user_id, challenge_id)
-values ('koosaga', 3L, 4L);
+insert into participations(name, challenge_id)
+values ('koosaga', 4L);
 -- 5
-insert into participations(name, user_id, challenge_id)
-values ('rie', 7L, 5L);
-insert into participations(name, user_id, challenge_id)
-values ('isvara', 10L, 5L);
+insert into participations(name, challenge_id)
+values ('rie', 5L);
+insert into participations(name, challenge_id)
+values ('isvara', 5L);
 
 --author
 -- 1

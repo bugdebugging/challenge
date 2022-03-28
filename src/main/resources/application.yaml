@@ -42,3 +42,5 @@ spring:
 rest-client:
   problem-catalog:
     host: ${CATALOG_SERVER}
+  user:
+    host: ${USER_SERVER}

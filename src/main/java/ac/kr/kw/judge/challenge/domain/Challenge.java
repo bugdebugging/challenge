@@ -56,8 +56,9 @@ public class Challenge {
 
         this.mappingChallengeWithQuestion();
     }
-    private void mappingChallengeWithQuestion(){
-        this.challengeQuestions.stream().forEach(challengeQuestion->challengeQuestion.setChallenge(this));
+
+    private void mappingChallengeWithQuestion() {
+        this.challengeQuestions.stream().forEach(challengeQuestion -> challengeQuestion.setChallenge(this));
     }
 
     private void verifyAuthorNumberLargerOrEqualThanOne() {
@@ -72,18 +73,18 @@ public class Challenge {
         }
     }
 
-    public void participateInChallenge(Long userId, String name, LocalDateTime timestamp) {
-        this.verifyCanParticipateIn(userId, timestamp);
-        this.addParticipation(userId, name);
+    public void participateInChallenge(String name, LocalDateTime timestamp) {
+        this.verifyCanParticipateIn(name,timestamp);
+        this.addParticipation(name);
     }
 
-    private void addParticipation(Long userId, String name) {
-        this.participations.add(Participation.of(userId, name, this));
+    private void addParticipation(String name) {
+        this.participations.add(Participation.of(name, this));
     }
 
-    private void verifyCanParticipateIn(Long userId, LocalDateTime timestamp) {
+    private void verifyCanParticipateIn(String username, LocalDateTime timestamp) {
         this.participations.stream()
-                .filter(participation -> participation.getUserId().equals(userId))
+                .filter(participation -> participation.getName().equals(username))
                 .findFirst().ifPresent((participation) -> {
             throw new IllegalStateException("이미 대회에 참여했습니다.");
         });
