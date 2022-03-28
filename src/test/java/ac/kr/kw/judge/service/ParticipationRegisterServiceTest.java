@@ -42,7 +42,7 @@ public class ParticipationRegisterServiceTest {
     @DisplayName("대회에 참여")
     void 대회참여_성공() {
         Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
-        when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
+        when(challengeRepository.findChallengeWithParticipation(challengeId)).thenReturn(Optional.of(challenge));
 
         final String name = "tourist";
         participationRegisterService.participateInChallenge(challengeId, name);
@@ -58,7 +58,7 @@ public class ParticipationRegisterServiceTest {
     @DisplayName("대회에 중복 참여")
     void 대회_중복참여_실패() {
         Challenge challenge = new Challenge(name, authors, questions, challengeDateTime);
-        when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
+        when(challengeRepository.findChallengeWithParticipation(challengeId)).thenReturn(Optional.of(challenge));
 
         final String name = "tourist";
         participationRegisterService.participateInChallenge(challengeId, name);
@@ -74,7 +74,7 @@ public class ParticipationRegisterServiceTest {
         ChallengeDateTime onProgressDateTime = ChallengeDateTime.of(LocalDateTime.now().minusHours(1)
                 , LocalDateTime.now().plusHours(1));
         Challenge challenge = new Challenge(name, authors, questions, onProgressDateTime);
-        when(challengeRepository.findById(challengeId)).thenReturn(Optional.of(challenge));
+        when(challengeRepository.findChallengeWithParticipation(challengeId)).thenReturn(Optional.of(challenge));
 
         assertThrows(IllegalStateException.class, () -> {
             participationRegisterService.participateInChallenge(1L, name);
