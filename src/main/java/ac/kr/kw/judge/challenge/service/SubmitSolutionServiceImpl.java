@@ -28,7 +28,7 @@ public class SubmitSolutionServiceImpl implements SubmitSolutionService {
 
     @Override
     public void submitSolution(Long challengeId, SolutionSubmitCommand solutionSubmitCommand) {
-        Challenge challenge = ChallengeFindHelper.findById(challengeId,challengeRepository);
+        Challenge challenge = ChallengeFindHelper.findByIdWithParticipation(challengeId,challengeRepository);
         Submit submit = challenge.submitSolutionOfQuestion(solutionSubmitCommand.getUsername()
                 , solutionSubmitCommand.getProblemId()
                 , solutionSubmitCommand.getProgrammingLanguage()
