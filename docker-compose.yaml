@@ -35,7 +35,7 @@ services:
 
   api-gateway:
     container_name: 'api-gateway'
-    image: 'isvara/api-gateway:1.0'
+    image: 'isvara/api-gateway:1.1'
     networks:
       - app-tier
     ports:
@@ -50,11 +50,13 @@ services:
       - CATALOG_SVC=http://catalog:8081
       - CHALLENGE_SVC=http://challenge:8082
       - USER_SVC=http://user:8083
-      - PROBLEM=http:problem:8084
+      - PROBLEM_SVC=http://problem:8084
+      - JWT_SECRET=testsecret
+      - JWT.ISSUER=k-judge
 
   catalog:
     container_name: 'catalog'
-    image: 'isvara/problem-catalog:1.0'
+    image: 'isvara/problem-catalog:1.1'
     networks:
       - app-tier
     ports:
@@ -69,7 +71,7 @@ services:
 
   problem:
     container_name: 'problem'
-    image: 'isvara/problem:1.0'
+    image: 'isvara/problem:1.1'
     networks:
       - app-tier
     ports:
@@ -82,7 +84,7 @@ services:
 
   challenge:
     container_name: 'challenge'
-    image: 'isvara/challenge:1.0'
+    image: 'isvara/challenge:1.1'
     networks:
       - app-tier
     ports:
@@ -96,7 +98,7 @@ services:
 
   user:
     container_name: 'user'
-    image: 'isvara/user:1.0'
+    image: 'isvara/user:1.1'
     networks:
       - app-tier
     ports:
