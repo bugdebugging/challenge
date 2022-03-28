@@ -33,7 +33,7 @@ public class ChallengeModifyController {
     public ApiResult modifyChallengeQuestions(@PathVariable("challengeId") Long challengeId,
                                               @RequestBody QuestionModifyWrapper questionModifyWrapper,
                                               @AuthorizedUser String username) {
-        List<QuestionRegisterCommand> questionRegisterCommand = problemClient.findProblemsContainingIds(questionModifyWrapper.getQuestions())
+        List<QuestionRegisterCommand> questionRegisterCommand = problemClient.findProblemsContainingIds(questionModifyWrapper.getQuestions(), username)
                 .stream().map(problemDto -> new QuestionRegisterCommand(problemDto.getId(), problemDto.getName()))
                 .collect(Collectors.toList());
 

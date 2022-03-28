@@ -10,8 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,18 +38,27 @@ public class ProblemClientImpl implements ProblemClient {
     }
 
     @Override
-    public List<ProblemDto> findProblemsContainingIds(List<Long> problemIds) {
+    public List<ProblemDto> findProblemsContainingIds(List<Long> problemIds, String username) {
         String urlWithParams = UriComponentsBuilder.fromHttpUrl(host + GET_PROBLEM_DTO_CONTAINING_IDS)
                 .queryParam("problemIds", StringUtils.join(problemIds, ','))
                 .toUriString();
-
-        ResponseEntity<String> response = restTemplate.getForEntity(urlWithParams, String.class);
-        if (response.getStatusCode() != HttpStatus.OK) {
-            throw new IllegalArgumentException("문제를 탐색할 수 없습니다.");
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(urlWithParams, HttpMethod.GET, createGetProblemDtoRequestHeader(username), String.class);
+            if (response.getStatusCode() != HttpStatus.OK) {
+                throw new IllegalArgumentException("본인의 문제만 출제가 가능합니다.");
+            }
+            List<ProblemDto> result = convertToProblemDto(response);
+            checkArgument(result.size() == problemIds.size(), "해당 id의 문제들을 찾을 수 없습니다.");
+            return result;
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        List<ProblemDto> result = convertToProblemDto(response);
-        checkArgument(result.size() == problemIds.size(), "해당 id의 문제들을 찾을 수 없습니다.");
-        return result;
+    }
+
+    private HttpEntity createGetProblemDtoRequestHeader(String username) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("X-USERNAME", username);
+        return new HttpEntity(httpHeaders);
     }
 
     private List<ProblemDto> convertToProblemDto(ResponseEntity<String> response) {

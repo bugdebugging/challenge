@@ -30,7 +30,7 @@ public class ChallengeRegisterController {
     public ApiResult registerChallenge(@RequestBody ChallengeRegisterDto challengeRegisterDto,
                                        @AuthorizedUser String username) {
         List<QuestionRegisterCommand> questionRegisterCommands =
-                problemClient.findProblemsContainingIds(challengeRegisterDto.getQuestions())
+                problemClient.findProblemsContainingIds(challengeRegisterDto.getQuestions(),username)
                         .stream().map(problemDto -> new QuestionRegisterCommand(problemDto.getId(), problemDto.getName()))
                         .collect(Collectors.toList());
 
