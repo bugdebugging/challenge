@@ -20,10 +20,6 @@ public class Challenge {
     @Column
     private String name;
 
-    @ElementCollection
-    @CollectionTable(name = "challenge_authors", joinColumns = @JoinColumn(name = "challenge_id"))
-    private List<Author> authors = new ArrayList<>();
-
     @OneToMany(mappedBy = "challenge", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participation> participations = new ArrayList<>();
 
@@ -32,6 +28,9 @@ public class Challenge {
 
     @Embedded
     private ChallengeDateTime challengeDateTime;
+
+    @Column
+    private Author author;
 
     @Column
     @CreationTimestamp
@@ -44,27 +43,18 @@ public class Challenge {
     protected Challenge() {
     }
 
-    public Challenge(String name, List<Author> authors, List<Question> challengeQuestions, ChallengeDateTime challengeDateTime) {
+    public Challenge(String name, List<Question> challengeQuestions, ChallengeDateTime challengeDateTime, Author author) {
         this.name = name;
-        this.authors = authors;
         this.challengeQuestions = challengeQuestions;
         this.challengeDateTime = challengeDateTime;
+        this.author = author;
 
-        this.verifyAuthorNumberLargerOrEqualThanOne();
         this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
-        this.checkExistDuplicateAuthor();
-
         this.mappingChallengeWithQuestion();
     }
 
     private void mappingChallengeWithQuestion() {
         this.challengeQuestions.stream().forEach(challengeQuestion -> challengeQuestion.setChallenge(this));
-    }
-
-    private void verifyAuthorNumberLargerOrEqualThanOne() {
-        if (authors.isEmpty()) {
-            throw new IllegalArgumentException("적어도 한명의 출제진은 존재해야합니다.");
-        }
     }
 
     private void verifyChallengeQuestionNumberLargerOrEqualThanOne() {
@@ -74,7 +64,7 @@ public class Challenge {
     }
 
     public void participateInChallenge(String name, LocalDateTime timestamp) {
-        this.verifyCanParticipateIn(name,timestamp);
+        this.verifyCanParticipateIn(name, timestamp);
         this.addParticipation(name);
     }
 
@@ -110,19 +100,6 @@ public class Challenge {
         this.challengeQuestions.addAll(questions);
         this.verifyChallengeQuestionNumberLargerOrEqualThanOne();
         this.mappingChallengeWithQuestion();
-    }
-
-    public void changeAuthors(List<Author> authors) {
-        this.authors = authors;
-        checkExistDuplicateAuthor();
-        this.verifyAuthorNumberLargerOrEqualThanOne();
-    }
-
-    private void checkExistDuplicateAuthor() {
-        if (this.authors.stream().distinct()
-                .collect(Collectors.toList()).size() != this.authors.size()) {
-            throw new IllegalArgumentException("중복된 저자가 존재할 수 없습니다.");
-        }
     }
 
     public void changeChallengeInfo(String name, ChallengeDateTime challengeDateTime) {
@@ -179,10 +156,6 @@ public class Challenge {
         return name;
     }
 
-    public List<Author> getAuthors() {
-        return authors;
-    }
-
     public List<Participation> getParticipations() {
         return participations;
     }
@@ -193,6 +166,10 @@ public class Challenge {
 
     public ChallengeDateTime getChallengeDateTime() {
         return challengeDateTime;
+    }
+
+    public Author getAuthor() {
+        return author;
     }
 
     public LocalDateTime getCreatedAt() {
