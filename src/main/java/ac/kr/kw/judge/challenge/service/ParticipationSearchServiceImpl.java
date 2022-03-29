@@ -43,7 +43,7 @@ public class ParticipationSearchServiceImpl implements ParticipationSearchServic
                 .orElseThrow(() -> {
                     throw new IllegalArgumentException("해당 id의 제출이 존재하지 않습니다.");
                 });
-        if (submit.getParticipation().getName().equals(username)) {
+        if (!submit.getParticipation().getName().equals(username)) {
             throw new UnAuthorizedException("참여자 본인의 제출만 조회할 수 있습니다.");
         }
         return SubmitDetailDto.fromEntity(submit);
