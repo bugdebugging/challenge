@@ -52,7 +52,7 @@ public class ChallengeModifyServiceTest {
                 new QuestionRegisterCommand(4L, "greedy2"));
 
         //when
-        challengeModifyService.changeQuestions(challengeId, willBeChallengeQuestions);
+        challengeModifyService.changeQuestions(challengeId, author.getName(), willBeChallengeQuestions);
 
         //then
         for (int i = 0; i < challenge.getChallengeQuestions().size(); i++) {
@@ -76,7 +76,7 @@ public class ChallengeModifyServiceTest {
         final ChallengeDateTime willBeChallengeDate = ChallengeDateTime.of(LocalDateTime.now().plusHours(5),
                 LocalDateTime.now().plusHours(9));
 
-        challengeModifyService.changeChallengeInfo(challengeId, new ChallengeInfoModifyCommand(willBeChallengeName, willBeChallengeDate));
+        challengeModifyService.changeChallengeInfo(challengeId, author.getName(), new ChallengeInfoModifyCommand(willBeChallengeName, willBeChallengeDate));
 
         assertEquals(willBeChallengeName, challenge.getName(), "수정된 이름으로 변경");
         assertEquals(willBeChallengeDate, challenge.getChallengeDateTime(), "수정된 대회시간으로 변경");

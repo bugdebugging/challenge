@@ -37,7 +37,7 @@ public class ChallengeModifyController {
                 .stream().map(problemDto -> new QuestionRegisterCommand(problemDto.getId(), problemDto.getName()))
                 .collect(Collectors.toList());
 
-        challengeModifyService.changeQuestions(challengeId, questionRegisterCommand);
+        challengeModifyService.changeQuestions(challengeId, username, questionRegisterCommand);
         return ApiUtils.simpleMessage("You have successfully changed the questions.");
     }
 
@@ -47,7 +47,7 @@ public class ChallengeModifyController {
                                          @RequestBody ChallengeInfoModifyDto challengeInfoModifyDto,
                                          @AuthorizedUser String username) {
         ChallengeInfoModifyCommand challengeInfoModifyCommand = new ChallengeInfoModifyCommand(challengeInfoModifyDto.getName(), challengeInfoModifyDto.getChallengeDateTime());
-        challengeModifyService.changeChallengeInfo(challengeId, challengeInfoModifyCommand);
+        challengeModifyService.changeChallengeInfo(challengeId, username, challengeInfoModifyCommand);
         return ApiUtils.simpleMessage("You have successfully changed the challenge info.");
     }
 }

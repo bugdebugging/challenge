@@ -6,7 +6,7 @@ import ac.kr.kw.judge.challenge.service.command.QuestionRegisterCommand;
 import java.util.List;
 
 public interface ChallengeModifyService {
-    void changeQuestions(Long challengeId, List<QuestionRegisterCommand> questionRegisterCommands);
+    void changeQuestions(Long challengeId, String username, List<QuestionRegisterCommand> questionRegisterCommands);
 
-    void changeChallengeInfo(Long challengeId, ChallengeInfoModifyCommand challengeInfoModifyCommand);
+    void changeChallengeInfo(Long challengeId, String username, ChallengeInfoModifyCommand challengeInfoModifyCommand);
 }
