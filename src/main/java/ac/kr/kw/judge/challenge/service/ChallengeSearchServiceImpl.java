@@ -35,7 +35,7 @@ public class ChallengeSearchServiceImpl implements ChallengeSearchService {
 
     @Override
     public List<QuestionDto> findQuestionsOfChallenge(Long challengeId) {
-        Challenge challenge = ChallengeFindHelper.findById(challengeId,challengeRepository);
+        Challenge challenge = ChallengeFindHelper.findById(challengeId, challengeRepository);
         return questionRepository.findQuestionByChallenge(challenge)
                 .stream().map(question -> QuestionDto.fromEntity(question))
                 .collect(Collectors.toList());
@@ -43,8 +43,8 @@ public class ChallengeSearchServiceImpl implements ChallengeSearchService {
 
     @Override
     public List<ParticipationDto> findParticipationsOfChallenge(Long challengeId, int page, int limit) {
-        Challenge challenge = ChallengeFindHelper.findById(challengeId,challengeRepository);
-        return participationRepository.findParticipationByChallenge(challenge,PageRequest.of(page,limit))
+        Challenge challenge = ChallengeFindHelper.findById(challengeId, challengeRepository);
+        return participationRepository.findParticipationByChallenge(challenge, PageRequest.of(page, limit, Sort.by("score").descending()))
                 .stream().map(participation -> ParticipationDto.fromEntity(participation))
                 .collect(Collectors.toList());
     }
