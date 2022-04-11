@@ -106,4 +106,4 @@ services:
     environment:
       - JWT_SECRET=testsecret
       - JWT.ISSUER=k-judge
-      - JWT.DURATION_TIME=600
+      - JWT.DURATION_TIME=60000
