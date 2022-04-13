@@ -84,7 +84,7 @@ services:
 
   challenge:
     container_name: 'challenge'
-    image: 'isvara/challenge:1.1'
+    image: 'isvara/challenge:1.2'
     networks:
       - app-tier
     ports:
@@ -98,7 +98,7 @@ services:
 
   user:
     container_name: 'user'
-    image: 'isvara/user:1.1'
+    image: 'isvara/user:1.2'
     networks:
       - app-tier
     ports:
