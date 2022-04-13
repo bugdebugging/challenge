@@ -44,7 +44,7 @@ public class ChallengeSearchServiceImpl implements ChallengeSearchService {
     @Override
     public List<ParticipationDto> findParticipationsOfChallenge(Long challengeId, int page, int limit) {
         Challenge challenge = ChallengeFindHelper.findById(challengeId, challengeRepository);
-        return participationRepository.findParticipationByChallenge(challenge, PageRequest.of(page, limit, Sort.by("score").descending()))
+        return participationRepository.findParticipationByChallenge(challenge, PageRequest.of(page, limit, Sort.by("challengeScore.score").descending()))
                 .stream().map(participation -> ParticipationDto.fromEntity(participation))
                 .collect(Collectors.toList());
     }
