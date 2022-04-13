@@ -25,7 +25,7 @@ public class ChallengeGradeServiceImpl implements ChallengeGradeService {
     @Override
     public void gradeChallenge(Long challengeId, String username) {
         Challenge challenge = ChallengeFindHelper.findByIdWithParticipation(challengeId, challengeRepository);
-        if (challenge.getAuthor().equals(Author.of(username))) {
+        if (!challenge.getAuthor().equals(Author.of(username))) {
             throw new UnAuthorizedException("대회 채점 요청은 대회 개최자만이 수행할 수 있습니다.");
         }
         eventSender.publish(CHALLENGE_FINISH_TOPIC_NAME, challenge.getParticipations().stream()
