@@ -107,3 +107,4 @@ services:
       - JWT_SECRET=testsecret
       - JWT.ISSUER=k-judge
       - JWT.DURATION_TIME=60000
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
