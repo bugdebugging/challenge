@@ -26,7 +26,7 @@
 <br/>
 
 **API Doc**
-https://tricky-helicona-552.notion.site/API-7421423d05a445d5873d7741721acc4a
+https://tricky-helicona-552.notion.site/API-v-1-1-de2740263b3d4f60811bdbe7d51a5c65
 
 
 **ERD Doc**
