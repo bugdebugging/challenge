@@ -26,8 +26,15 @@
 <br/>
 
 **API Doc**
-https://tricky-helicona-552.notion.site/API-7421423d05a445d5873d7741721acc4a
+https://tricky-helicona-552.notion.site/API-v-1-1-de2740263b3d4f60811bdbe7d51a5c65
 
 
 **ERD Doc**
 https://drive.google.com/file/d/1peosU7hiIP3MSl7xHGMN_S341ubI1IlZ/view?usp=sharing
+<br/>
+
+**인증과정**
+<br/>
+<br/>
+<br/>
+![스크린샷(1042)](https://user-images.githubusercontent.com/51366592/164149841-c3134460-596b-4555-bd8e-0a2113edbf76.png)
