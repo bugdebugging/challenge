@@ -38,3 +38,8 @@ https://drive.google.com/file/d/1peosU7hiIP3MSl7xHGMN_S341ubI1IlZ/view?usp=shari
 <br/>
 <br/>
 ![스크린샷(1042)](https://user-images.githubusercontent.com/51366592/164149841-c3134460-596b-4555-bd8e-0a2113edbf76.png)
+
+
+
+**Doc**
+https://www.notion.so/Kjudge-Infos-c91643d6e52641278a451e1f34bd3b29
