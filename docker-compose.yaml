@@ -28,6 +28,8 @@ services:
     image: 'mongo:latest'
     networks:
       - app-tier
+    volumes:
+    - /home/annyousung/mongo_data:/data/db
     ports:
       - "27017:27017"
     environment:
@@ -77,6 +79,9 @@ services:
     image: 'isvara/problem-prod'
     networks:
       - app-tier
+    volumes:
+    - /problems:/problems
+    - /execute:/execute
     ports:
       - "8084:8084"
     depends_on:
