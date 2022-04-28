@@ -65,9 +65,9 @@ services:
       - kafka
       - mongo
     environment:
-      - DB_USERNAME="${DB_USERNAME}"
-      - DB_PASSWORD="${DB_PASSWORD}"
-      - DB_URL="${DB_URL}"
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_URL=${DB_URL}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - MONGO_DB_HOST=mongo:27017
       - TZ=Asia/Seoul
@@ -82,9 +82,9 @@ services:
     depends_on:
       - kafka
     environment:
-      - DB_USERNAME="${DB_USERNAME}"
-      - DB_PASSWORD="${DB_PASSWORD}"
-      - DB_URL="${DB_URL}"
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_URL=${DB_URL}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - TZ=Asia/Seoul
 
@@ -98,9 +98,9 @@ services:
     depends_on:
       - kafka
     environment:
-      - DB_USERNAME="${DB_USERNAME}"
-      - DB_PASSWORD="${DB_PASSWORD}"
-      - DB_URL="${DB_URL}"
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_URL=${DB_URL}
       - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - CATALOG_SERVER=http://catalog:8081
       - TZ=Asia/Seoul
@@ -113,9 +113,9 @@ services:
     ports:
       - "8083:8083"
     environment:
-      - DB_USERNAME="${DB_USERNAME}"
-      - DB_PASSWORD="${DB_PASSWORD}"
-      - DB_URL="${DB_URL}"
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_URL=${DB_URL}
       - JWT_SECRET=testsecret
       - JWT.ISSUER=k-judge
       - JWT.DURATION_TIME=60000
