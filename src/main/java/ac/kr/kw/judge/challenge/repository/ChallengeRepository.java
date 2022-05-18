@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
-    @Query("SELECT distinct C, C.participations.size, C.challengeQuestions.size FROM Challenge C")
+    @Query("SELECT distinct C, C.participations.size, C.challengeQuestions.size FROM Challenge C ORDER BY C.challengeDateTime.endTime DESC")
     List<Object[]> findChallengeWithCountOfQuestionAndParticipation(Pageable page);
 
     @Query("SELECT distinct C FROM Challenge C LEFT JOIN FETCH C.participations WHERE C.id =:challengeId")
