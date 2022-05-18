@@ -95,7 +95,7 @@ services:
 
   challenge:
     container_name: 'challenge'
-    image: 'isvara/challenge-prod'
+    image: 'isvara/challenge-prod:1.0.1'
     networks:
       - app-tier
     ports:
